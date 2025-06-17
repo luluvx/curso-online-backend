@@ -1,5 +1,7 @@
 const authService = require('../services/auth.service');
 
+const rolService = require('../services/rol.service');
+
 
 
 exports.login = async (req, res) => {
@@ -35,13 +37,20 @@ exports.register = async (req, res) => {
     if (!req.body || Object.keys(req.body).length === 0) {
         return res.status(400).json({ error: 'Por favor, complete todos los campos requeridos.' });
     }
-    const { username, nombre, apellido, email, password } = req.body;
 
-    if ( !username || !nombre || !apellido || !email || !password) {
+    const { username, nombre, apellido, email, password, rolId } = req.body;
+
+    if (!username || !nombre || !apellido || !email || !password || !rolId) {
         return res.status(400).json({ error: 'Todos los campos son requeridos' });
     }
+
     try {
-        const result = await authService.register(username, nombre, apellido, email, password);
+        const rol = await rolService.findOne(rolId);
+        if (!rol) {
+            return res.status(400).json({ error: 'Rol no encontrado' });
+        }
+
+        const result = await authService.register(username, nombre, apellido, email, password, rol.id);
         res.status(201).json({ message: result.message });
     } catch (error) {
         res.status(400).json({ error: error.message });

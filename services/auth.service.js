@@ -33,8 +33,8 @@ const login = async (email, password) => {
 }
 
 
-const register = async (username, nombre, apellido, email, password) => {
-    if (!username || !nombre || !apellido || !email || !password) {
+const register = async (username, nombre, apellido, email, password, rolId) => {
+    if (!username || !nombre || !apellido || !email || !password, !rolId) {
         throw new Error('Todos los campos son requeridos');
     }
 
@@ -50,7 +50,8 @@ const register = async (username, nombre, apellido, email, password) => {
         nombre,
         apellido,
         email,
-        password: hashedPassword
+        password: hashedPassword,
+        rolId
     });
 
     await newUser.save();
