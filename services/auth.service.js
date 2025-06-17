@@ -15,7 +15,7 @@ const login = async (email, password) => {
     }
 
     const token = jwt.sign(
-        { id: usuario.id },
+        { id: usuario.id, username: usuario.username, rolId: usuario.rolId },
         process.env.JWT_SECRET,
         { expiresIn: '1h' }
     );
@@ -27,7 +27,8 @@ const login = async (email, password) => {
             username: usuario.username,
             nombre: usuario.nombre,
             apellido: usuario.apellido,
-            email: usuario.email
+            email: usuario.email,
+            rolId: usuario.rolId
         }
     };
 }

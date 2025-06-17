@@ -1,12 +1,14 @@
 module.exports = app => {
     let router = require("express").Router();
     const controller = require("../controllers/rol.controller.js");
+    const authenticateToken = require("../middlewares/authenticateToken.js");
+    const authorizeRole = require("../middlewares/authorizeRole.js");
 
 
 
     // Create a new role
     //router.post("/", [authJwt.verifyToken, authJwt.isAdmin], controller.create);
-    router.post("/", controller.create);
+    router.post("/", authenticateToken, authorizeRole([1]), controller.create);
 
     // Retrieve all roles
     router.get("/",  controller.findAll);
