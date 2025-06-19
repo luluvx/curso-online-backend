@@ -1,16 +1,38 @@
 module.exports = (app) => {
     const router = require('express').Router();
     const controlador   = require('../controllers/categoria.controller');
+    const auth   = require('../middlewares/auth.middleware');
 
-    router.post('/', controlador.crear);
+    router.post(
+        '/',
+        auth.verifyToken,
+        auth.isAdmin,
+        controlador.crear
+    );
 
-    router.get('/', controlador.findAll);
+    router.get(
+        '/',
+        controlador.findAll
+    );
 
-    router.get('/:id', controlador.findOne);
+    router.get(
+        '/:id',
+        controlador.findOne
+    );
 
-    router.put('/:id', controlador.update);
+    router.put(
+        '/:id',
+        auth.verifyToken,
+        auth.isAdmin,
+        controlador.update
+    );
 
-    router.delete('/:id', controlador.remove);
+    router.delete(
+        '/:id',
+        auth.verifyToken,
+        auth.isAdmin,
+        controlador.remove
+    );
 
     app.use('/api/categorias', router);
 };
