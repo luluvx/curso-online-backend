@@ -17,6 +17,20 @@ db.sequelize = sequelize;
 
 db.usuarios = require('./usuario.model.js')(sequelize, Sequelize);
 db.roles = require('./rol.model.js')(sequelize, Sequelize);
+db.categorias = require('./categoria.model.js')(sequelize, Sequelize);
+
+
+// Un rol puede tener muchos usuarios
+db.roles.hasMany(db.usuarios, {
+    foreignKey: 'rolId',
+});
+
+// Un usuario pertenece a un rol
+db.usuarios.belongsTo(db.roles, {
+    foreignKey: 'rolId',
+    as: 'rol',
+});
+
 
 
 module.exports = db;
