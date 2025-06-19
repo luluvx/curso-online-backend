@@ -7,6 +7,10 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+
+app.use(express.static('public'));
+
+
 //middleware para habilitar CORS
 app.use(cors({
     origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],

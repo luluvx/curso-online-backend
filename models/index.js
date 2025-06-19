@@ -18,6 +18,7 @@ db.sequelize = sequelize;
 db.usuarios = require('./usuario.model.js')(sequelize, Sequelize);
 db.roles = require('./rol.model.js')(sequelize, Sequelize);
 db.categorias = require('./categoria.model.js')(sequelize, Sequelize);
+db.cursos = require('./curso.model.js')(sequelize, Sequelize);
 
 
 // Un rol puede tener muchos usuarios
@@ -30,6 +31,15 @@ db.usuarios.belongsTo(db.roles, {
     foreignKey: 'rolId',
     as: 'rol',
 });
+
+Object.keys(db).forEach(modelName => {
+    if (db[modelName].associate) {
+        db[modelName].associate(db);
+    }
+});
+
+
+
 
 
 
