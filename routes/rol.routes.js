@@ -1,24 +1,19 @@
 module.exports = app => {
-    let router = require("express").Router();
-    const controller = require("../controllers/rol.controller.js");
+    const router = require('express').Router();
+    const controller = require('../controllers/rol.controller.js');
+    const auth = require('../middlewares/auth.middleware.js');
 
+    router.use(auth.verifyToken, auth.isAdmin);
 
+    router.post('/', controller.create);
 
-    // Create a new role
-    //router.post("/", [authJwt.verifyToken, authJwt.isAdmin], controller.create);
-    router.post("/", controller.create);
+    router.get('/', controller.findAll);
 
-    // Retrieve all roles
-    router.get("/",  controller.findAll);
+    router.get('/:id', controller.findOne);
 
-    // Retrieve a single role with id
-    router.get("/:id",  controller.findOne);
+    router.put('/:id', controller.update);
 
-    // Update a role with id
-    router.put("/:id",  controller.update);
+    router.delete('/:id', controller.remove);
 
-    // Delete a role with id
-    router.delete("/:id", controller.remove);
-
-    app.use("/api/roles", router);
-}
+    app.use('/api/roles', router);
+};
