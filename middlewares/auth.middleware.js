@@ -28,3 +28,16 @@ exports.isRole = (roleName) => {
 exports.isAdmin     = exports.isRole('administrador');
 exports.isProfessor = exports.isRole('profesor');
 exports.isStudent   = exports.isRole('estudiante');
+
+
+exports.isAdminOrProfessor = async (req, res, next) => {
+    const user = await db.usuarios.findByPk(req.user.id, { include: 'rol' });
+    if (!user) {
+        return res.status(401).json({ error: 'Usuario no encontrado' });
+    }
+    const rol = user.rol.nombre;
+    if (rol !== 'administrador' && rol !== 'profesor') {
+        return res.status(403).json({ error: 'Requiere rol de administrador o profesor' });
+    }
+    next();
+};
