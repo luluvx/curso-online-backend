@@ -35,7 +35,7 @@ const login = async (email, password) => {
 
 
 const register = async (username, nombre, apellido, email, password, rolId) => {
-    if (!username || !nombre || !apellido || !email || !password, !rolId) {
+    if (!username || !nombre || !apellido || !email || !password || !rolId) {
         throw new Error('Todos los campos son requeridos');
     }
 
