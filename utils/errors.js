@@ -4,10 +4,18 @@ class BadRequestError extends Error {
         this.status = 400;
     }
 }
-    class NotFoundError extends Error {
+class NotFoundError extends Error {
     constructor(message) {
         super(message);
         this.status = 404;
     }
 }
-module.exports = { BadRequestError, NotFoundError };
+
+class ForbiddenError extends Error {
+    constructor(message) {
+        super(message);
+        this.status = 403;
+    }
+}
+
+module.exports = { BadRequestError, NotFoundError, ForbiddenError };
