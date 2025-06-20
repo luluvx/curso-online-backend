@@ -56,6 +56,7 @@ db.sequelize.sync({
 
 
 require('./routes')(app);
+app.use(require('./middlewares/error.middleware'));
 
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
