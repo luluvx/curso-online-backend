@@ -5,4 +5,5 @@ module.exports = app => {
     require("./curso.routes")(app);
     require("./inscripcion.routes")(app);
     require("./video.routes")(app);
+    require("./nota.routes")(app);
 }

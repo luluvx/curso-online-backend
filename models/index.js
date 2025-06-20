@@ -21,6 +21,7 @@ db.categorias = require('./categoria.model.js')(sequelize, Sequelize);
 db.cursos = require('./curso.model.js')(sequelize, Sequelize);
 db.inscripciones = require('./inscripcion.model.js')(sequelize, Sequelize);
 db.videos = require('./video.model.js')(sequelize, Sequelize);
+db.notas = require('./nota.model.js')(sequelize, Sequelize);
 
 
 // Un rol puede tener muchos usuarios

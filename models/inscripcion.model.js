@@ -31,6 +31,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'cursoId',
         as: 'curso'
         });
+        Inscripcion.hasMany(models.notas, {
+        foreignKey: 'inscripcionId',
+        as: 'notas',
+        onDelete: 'CASCADE'
+        });
     };
 
     return Inscripcion;
