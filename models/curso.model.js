@@ -32,11 +32,11 @@ module.exports = (sequelize, Sequelize) => {
         as: "profesor"
         });
 
-        // Curso.hasMany(models.videos, {
-        // foreignKey: "cursoId",
-        // as: "videos",
-        // onDelete: "CASCADE"
-        // });
+        Curso.hasMany(models.videos, {
+        foreignKey: "cursoId",
+        as: "videos",
+        onDelete: "CASCADE"
+        });
     };
 
     return Curso;

@@ -4,4 +4,5 @@ module.exports = app => {
     require("./categoria.routes")(app);
     require("./curso.routes")(app);
     require("./inscripcion.routes")(app);
+    require("./video.routes")(app);
 }

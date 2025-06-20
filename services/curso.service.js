@@ -68,7 +68,7 @@ const getCursoById = async (id) => {
         include: [
         { model: db.categorias, as: 'categoria', attributes: ['id','nombre'] },
         { model: db.usuarios,   as: 'profesor',   attributes: ['id','nombre','apellido'] },
-        //{ model: db.video,     as: 'videos' }
+        { model: db.videos,     as: 'videos' }
         ]
     });
     if (!curso) {
