@@ -1,13 +1,16 @@
 module.exports = (app) => {
     const router = require('express').Router();
-    const auth   = require('../middlewares/auth.middleware');
     const controlador   = require('../controllers/inscripcion.controller');
+    const auth   = require('../middlewares/auth.middleware');
+    const { PERMISSIONS } = require('../config/permission.config');
+    const permission      = require('../middlewares/permission.middleware');
+
 
     // Inscribirse a un curso (solo estudiantes)
     router.post(
         '/cursos/:cursoId/inscripcion',
         auth.verifyToken,
-        auth.isStudent,
+        permission.hasPermission(PERMISSIONS.ENROLL_COURSE),
         controlador.create
     );
 
@@ -15,7 +18,7 @@ module.exports = (app) => {
     router.get(
         '/cursos/:cursoId/inscripciones',
         auth.verifyToken,
-        auth.isAdminOrProfessor,
+        permission.hasPermission(PERMISSIONS.LIST_ENROLLMENTS),
         controlador.findAllByCurso
     );
 
@@ -23,7 +26,7 @@ module.exports = (app) => {
     router.get(
         '/mis-cursos',
         auth.verifyToken,
-        auth.isStudent,
+        permission.hasPermission(PERMISSIONS.VIEW_MY_COURSES),
         controlador.findAllByStudent
     );
 

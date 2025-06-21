@@ -2,13 +2,17 @@ module.exports = (app) => {
     const router = require('express').Router();
     const controlador   = require('../controllers/curso.controller');
     const auth   = require('../middlewares/auth.middleware');
+    const { PERMISSIONS } = require('../config/permission.config');
+    const permission      = require('../middlewares/permission.middleware');
+
+
     const upload = require('../middlewares/upload.middleware');
 
 
     router.post(
         '/',
         auth.verifyToken,
-        auth.isAdminOrProfessor,
+        permission.hasPermission(PERMISSIONS.CREATE_COURSE),
         controlador.create
     );
 
@@ -27,7 +31,7 @@ module.exports = (app) => {
     router.patch(
         '/:id',
         auth.verifyToken,
-        auth.isAdminOrProfessor,
+        permission.hasPermission(PERMISSIONS.UPDATE_COURSE),
         controlador.update
     );
 
@@ -35,14 +39,14 @@ module.exports = (app) => {
     router.delete(
         '/:id',
         auth.verifyToken,
-        auth.isAdminOrProfessor,
+        permission.hasPermission(PERMISSIONS.DELETE_COURSE),
         controlador.remove
     );
 
     router.post(
     '/:id/imagen',
     auth.verifyToken,
-    auth.isAdminOrProfessor,
+    permission.hasPermission(PERMISSIONS.UPDATE_COURSE),
     upload.single('imagen'),
     controlador.uploadPicture
     );

@@ -1,13 +1,15 @@
 module.exports = (app) => {
     const router = require('express').Router();
-    const auth   = require('../middlewares/auth.middleware');
     const controlador   = require('../controllers/video.controller');
+    const auth   = require('../middlewares/auth.middleware');
+    const { PERMISSIONS } = require('../config/permission.config');
+    const permission      = require('../middlewares/permission.middleware');
 
     // Agregar vídeo a un curso (solo admin o profesor dueño)
     router.post(
         '/cursos/:cursoId/videos',
         auth.verifyToken,
-        auth.isAdminOrProfessor,
+        permission.hasPermission(PERMISSIONS.ADD_VIDEO),
         controlador.create
     );
 
@@ -15,6 +17,7 @@ module.exports = (app) => {
     router.get(
         '/cursos/:cursoId/videos',
         auth.verifyToken,
+        permission.hasPermission(PERMISSIONS.VIEW_VIDEOS),
         controlador.findAll
     );
 
@@ -22,6 +25,7 @@ module.exports = (app) => {
     router.get(
         '/videos/:id',
         auth.verifyToken,
+        permission.hasPermission(PERMISSIONS.VIEW_VIDEO),
         controlador.findOne
     );
 
@@ -29,7 +33,7 @@ module.exports = (app) => {
     router.patch(
         '/videos/:id',
         auth.verifyToken,
-        auth.isAdminOrProfessor,
+        permission.hasPermission(PERMISSIONS.UPDATE_VIDEO),
         controlador.update
     );
 
@@ -37,7 +41,7 @@ module.exports = (app) => {
     router.delete(
         '/videos/:id',
         auth.verifyToken,
-        auth.isAdminOrProfessor,
+        permission.hasPermission(PERMISSIONS.DELETE_VIDEO),
         controlador.remove
     );
 

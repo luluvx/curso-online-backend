@@ -2,11 +2,14 @@ module.exports = (app) => {
     const router = require('express').Router();
     const controlador   = require('../controllers/categoria.controller');
     const auth   = require('../middlewares/auth.middleware');
+    const { PERMISSIONS } = require('../config/permission.config');
+    const permission      = require('../middlewares/permission.middleware');
+
 
     router.post(
         '/',
         auth.verifyToken,
-        auth.isAdmin,
+        permission.hasPermission(PERMISSIONS.CREATE_CATEGORY),
         controlador.crear
     );
 
@@ -23,14 +26,14 @@ module.exports = (app) => {
     router.put(
         '/:id',
         auth.verifyToken,
-        auth.isAdmin,
+        permission.hasPermission(PERMISSIONS.UPDATE_CATEGORY),
         controlador.update
     );
 
     router.delete(
         '/:id',
         auth.verifyToken,
-        auth.isAdmin,
+        permission.hasPermission(PERMISSIONS.DELETE_CATEGORY),
         controlador.remove
     );
 
