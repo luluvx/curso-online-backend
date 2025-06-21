@@ -1,12 +1,12 @@
-const dbConfig = require('../config/db.config.js');
+const dbConfig = require('../config/config.js');
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize(
-    dbConfig.DB,
-    dbConfig.USER,
-    dbConfig.PASSWORD, {
-        host: dbConfig.HOST,
-        port: dbConfig.PORT,
-        dialect: dbConfig.DIALECT,
+    dbConfig.development.database,
+    dbConfig.development.username,
+    dbConfig.development.password, {
+        host: dbConfig.development.host,
+        port: dbConfig.development.port,
+        dialect: dbConfig.development.dialect,
     }
 );
 
@@ -22,6 +22,8 @@ db.cursos = require('./curso.model.js')(sequelize, Sequelize);
 db.inscripciones = require('./inscripcion.model.js')(sequelize, Sequelize);
 db.videos = require('./video.model.js')(sequelize, Sequelize);
 db.notas = require('./nota.model.js')(sequelize, Sequelize);
+db.permisos = require('./permiso.model.js')(sequelize, Sequelize);
+db.rolePermissions = require('./rolePermission.model.js')(sequelize, Sequelize);
 
 
 // Un rol puede tener muchos usuarios
@@ -33,6 +35,19 @@ db.roles.hasMany(db.usuarios, {
 db.usuarios.belongsTo(db.roles, {
     foreignKey: 'rolId',
     as: 'rol',
+});
+
+db.roles.belongsToMany(db.permisos, {
+    through: db.rolePermissions,
+    foreignKey: 'rolId',
+    otherKey: 'permisoId',
+    as: 'permisos'
+});
+db.permisos.belongsToMany(db.roles, {
+    through: db.rolePermissions,
+    foreignKey: 'permisoId',
+    otherKey: 'rolId',
+    as: 'roles'
 });
 
 Object.keys(db).forEach(modelName => {

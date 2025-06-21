@@ -1,20 +1,20 @@
 
 const rolService = require('../services/rol.service');
+const { BadRequestError } = require('../utils/errors');
 
 exports.create = async (req, res) => {
-    if (!req.body || Object.keys(req.body).length === 0) {
-        return res.status(400).json({ error: 'Por favor, complete todos los campos requeridos.' });
-    }
-    const { nombre } = req.body;
-    if (!nombre) {
-        return res.status(400).json({ error: 'El nombre del rol es requerido' });
-    }
-
     try {
-        const newRole = await rolService.create(nombre);
+        if (!req.body || Object.keys(req.body).length === 0) {
+        throw new BadRequestError(
+            "El cuerpo de la petición no puede estar vacío"
+        );
+        }
+        const { codigo, nombre } = req.body;
+        const newRole = await rolService.create(codigo,nombre);
         res.status(201).json(newRole);
     } catch (error) {
-        res.status(500).json({ error: 'Error al crear el rol: ' + error.message });
+        if (err.status) return res.status(err.status).json({ error: err.message });
+        next(err);
     }
 }
 

@@ -2,18 +2,45 @@ module.exports = app => {
     const router = require('express').Router();
     const controller = require('../controllers/rol.controller.js');
     const auth = require('../middlewares/auth.middleware.js');
+    const { PERMISSIONS } = require('../config/permission.config');
+    const permission      = require('../middlewares/permission.middleware');
 
-    router.use(auth.verifyToken, auth.isAdmin);
 
-    router.post('/', controller.create);
 
-    router.get('/', controller.findAll);
+    router.post(
+        '/',
+        auth.verifyToken,
+        permission.hasPermission(PERMISSIONS.CREATE_ROLE),
+        controller.create
+    );
 
-    router.get('/:id', controller.findOne);
+    router.get(
+        '/',
+        auth.verifyToken,
+        permission.hasPermission(PERMISSIONS.VIEW_ROLES),
+        controller.findAll
+    );
 
-    router.put('/:id', controller.update);
+    router.get(
+        '/:id',
+        auth.verifyToken,
+        permission.hasPermission(PERMISSIONS.VIEW_ROLE),
+        controller.findOne
+    );
 
-    router.delete('/:id', controller.remove);
+    router.put(
+        '/:id',
+        auth.verifyToken,
+        permission.hasPermission(PERMISSIONS.UPDATE_ROLE),
+        controller.update
+    );
+
+    router.delete(
+        '/:id',
+        auth.verifyToken,
+        permission.hasPermission(PERMISSIONS.DELETE_ROLE),
+        controller.remove
+    );
 
     app.use('/api/roles', router);
 };
