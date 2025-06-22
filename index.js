@@ -12,7 +12,6 @@ const PORT = process.env.PORT || 3000;
 
 app.use('/uploads', express.static(path.join(__dirname, 'src/public/uploads')));
 
-
 //middleware para habilitar CORS
 app.use(
     cors({

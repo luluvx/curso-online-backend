@@ -1,58 +1,59 @@
 module.exports = {
     PERMISSIONS: {
-        // categorías
-        CREATE_CATEGORY: 'CREATE_CATEGORY',
-        VIEW_CATEGORIES: 'VIEW_CATEGORIES',
-        VIEW_CATEGORY: 'VIEW_CATEGORY',
-        UPDATE_CATEGORY: 'UPDATE_CATEGORY',
-        DELETE_CATEGORY: 'DELETE_CATEGORY',
+        // Usuarios
+        USERS_LIST: 'usuarios:listar',
 
-        // cursos
-        CREATE_COURSE: 'CREATE_COURSE',
-        VIEW_COURSES: 'VIEW_COURSES',
-        VIEW_COURSE: 'VIEW_COURSE',
-        UPDATE_COURSE: 'UPDATE_COURSE',
-        DELETE_COURSE: 'DELETE_COURSE',
+        // Categorías
+        CATEGORY_CREATE: 'categorias:crear',
+        CATEGORY_LIST: 'categorias:listar',
+        CATEGORY_VIEW: 'categorias:ver',
+        CATEGORY_UPDATE: 'categorias:editar',
+        CATEGORY_DELETE: 'categorias:eliminar',
 
-        // inscripciones
-        ENROLL_COURSE: 'ENROLL_COURSE',
-        LIST_ENROLLMENTS: 'LIST_ENROLLMENTS',
-        VIEW_MY_COURSES: 'VIEW_MY_COURSES',
+        // Cursos
+        COURSE_CREATE: 'cursos:crear',
+        COURSE_LIST: 'cursos:listar',
+        COURSE_VIEW: 'cursos:ver',
+        COURSE_UPDATE: 'cursos:editar',
+        COURSE_DELETE: 'cursos:eliminar',
 
-        // videos
-        ADD_VIDEO: 'ADD_VIDEO',
-        VIEW_VIDEOS: 'VIEW_VIDEOS',
-        VIEW_VIDEO: 'VIEW_VIDEO',
-        UPDATE_VIDEO: 'UPDATE_VIDEO',
-        DELETE_VIDEO: 'DELETE_VIDEO',
+        // Inscripciones
+        ENROLL_IN_COURSE: 'inscripciones:inscribirse',
+        ENROLLMENT_LIST: 'inscripciones:listar',
+        MY_COURSES_VIEW: 'mis_cursos:ver',
 
-        // notas
-        ASSIGN_GRADE: 'ASSIGN_GRADE',
-        VIEW_GRADES: 'VIEW_GRADES', // ver notas por inscripción
-        VIEW_MY_GRADES: 'VIEW_MY_GRADES', // ver todas mis notas
+        // Videos
+        VIDEO_ADD: 'videos:agregar',
+        VIDEO_LIST: 'videos:listar',
+        VIDEO_VIEW: 'videos:ver',
+        VIDEO_UPDATE: 'videos:editar',
+        VIDEO_DELETE: 'videos:eliminar',
 
-        // comentarios
-        ADD_COMMENT: 'ADD_COMMENT',
-        VIEW_COMMENTS: 'VIEW_COMMENTS',
-        UPDATE_COMMENT: 'UPDATE_COMMENT',
-        DELETE_COMMENT: 'DELETE_COMMENT',
+        // Notas
+        GRADE_ASSIGN: 'notas:asignar',
+        GRADE_LIST: 'notas:listar',
+        MY_GRADES_VIEW: 'mis_notas:ver',
 
-        // roles
-        CREATE_ROLE: 'CREATE_ROLE',
-        VIEW_ROLES: 'VIEW_ROLES',
-        VIEW_ROLE: 'VIEW_ROLE',
-        UPDATE_ROLE: 'UPDATE_ROLE',
-        DELETE_ROLE: 'DELETE_ROLE',
+        // Comentarios
+        COMMENT_ADD: 'comentarios:crear',
+        COMMENT_LIST: 'comentarios:listar',
+        COMMENT_UPDATE: 'comentarios:editar',
+        COMMENT_DELETE: 'comentarios:eliminar',
 
-        // permisos
-        CREATE_PERMISSION: 'CREATE_PERMISSION',
-        VIEW_PERMISSIONS: 'VIEW_PERMISSIONS',
-        VIEW_PERMISSION: 'VIEW_PERMISSION',
-        UPDATE_PERMISSION: 'UPDATE_PERMISSION',
-        DELETE_PERMISSION: 'DELETE_PERMISSION',
+        // Roles y permisos
+        ROLE_CREATE: 'roles:crear',
+        ROLE_LIST: 'roles:listar',
+        ROLE_VIEW: 'roles:ver',
+        ROLE_UPDATE: 'roles:editar',
+        ROLE_DELETE: 'roles:eliminar',
 
-        //role-permissions
-        ASSIGN_PERMISSIONS: 'ASSIGN_PERMISSIONS', // asignar permisos a un rol
-        VIEW_ROLE_PERMISSIONS: 'VIEW_ROLE_PERMISSIONS' // ver permisos de un rol
+        PERMISSION_CREATE: 'permisos:crear',
+        PERMISSION_LIST: 'permisos:listar',
+        PERMISSION_VIEW: 'permisos:ver',
+        PERMISSION_UPDATE: 'permisos:editar',
+        PERMISSION_DELETE: 'permisos:eliminar',
+
+        ROLE_ASSIGN_PERMISSIONS: 'roles:asignar_permisos',
+        ROLE_PERMISSIONS_VIEW: 'roles:ver_permisos'
     }
 };

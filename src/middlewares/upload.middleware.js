@@ -2,8 +2,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-
-const getUploadMiddleware = (tipo) => {
+const getUploadMiddleware = tipo => {
     const uploadDir = path.resolve(`src/public/uploads/${tipo}`);
 
     if (!fs.existsSync(uploadDir)) {
