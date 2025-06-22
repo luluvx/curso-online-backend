@@ -13,6 +13,14 @@ module.exports = (sequelize, Sequelize) => {
             imagenUrl: {
                 type: Sequelize.STRING,
                 allowNull: true
+            },
+            categoriaId: {
+                type: Sequelize.INTEGER,
+                allowNull: false,
+                references: {
+                    model: 'categorias',
+                    key: 'id'
+                }
             }
         },
         {

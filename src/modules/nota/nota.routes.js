@@ -9,7 +9,7 @@ module.exports = app => {
     router.post(
         '/inscripciones/:inscripcionId/notas',
         auth.verifyToken,
-        permission.hasPermission(PERMISSIONS.ASSIGN_GRADE),
+        permission.hasPermission(PERMISSIONS.GRADE_ASSIGN),
         controlador.create
     );
 
@@ -17,7 +17,7 @@ module.exports = app => {
     router.get(
         '/inscripciones/:inscripcionId/notas',
         auth.verifyToken,
-        permission.hasPermission(PERMISSIONS.VIEW_GRADES),
+        permission.hasPermission(PERMISSIONS.GRADE_LIST),
         controlador.findByInscripcion
     );
 
@@ -25,7 +25,7 @@ module.exports = app => {
     router.get(
         '/mis-notas',
         auth.verifyToken,
-        permission.hasPermission(PERMISSIONS.VIEW_MY_GRADES),
+        permission.hasPermission(PERMISSIONS.MY_GRADES_VIEW),
         controlador.findMine
     );
 

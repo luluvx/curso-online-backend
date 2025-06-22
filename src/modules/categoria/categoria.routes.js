@@ -8,7 +8,7 @@ module.exports = app => {
     router.post(
         '/',
         auth.verifyToken,
-        permission.hasPermission(PERMISSIONS.CREATE_CATEGORY),
+        permission.hasPermission(PERMISSIONS.CATEGORY_CREATE),
         controlador.create
     );
 
@@ -19,14 +19,14 @@ module.exports = app => {
     router.put(
         '/:id',
         auth.verifyToken,
-        permission.hasPermission(PERMISSIONS.UPDATE_CATEGORY),
+        permission.hasPermission(PERMISSIONS.CATEGORY_UPDATE),
         controlador.update
     );
 
     router.delete(
         '/:id',
         auth.verifyToken,
-        permission.hasPermission(PERMISSIONS.DELETE_CATEGORY),
+        permission.hasPermission(PERMISSIONS.CATEGORY_DELETE),
         controlador.remove
     );
 

@@ -5,26 +5,35 @@ module.exports = app => {
     const { PERMISSIONS } = require('@config/permission.config');
     const permission = require('@middlewares/permission.middleware');
 
-    router.get('/', auth.verifyToken, controlador.findAll);
+    // Listar todos los permisos
+    router.get(
+        '/',
+        auth.verifyToken,
+        permission.hasPermission(PERMISSIONS.PERMISSION_LIST),
+        controlador.findAll
+    );
 
+    // Crear un permiso
     router.post(
         '/',
         auth.verifyToken,
-        permission.hasPermission(PERMISSIONS.CREATE_PERMISSION),
+        permission.hasPermission(PERMISSIONS.PERMISSION_CREATE),
         controlador.create
     );
 
+    // Actualizar un permiso
     router.put(
         '/:id',
         auth.verifyToken,
-        permission.hasPermission(PERMISSIONS.UPDATE_PERMISSION),
+        permission.hasPermission(PERMISSIONS.PERMISSION_UPDATE),
         controlador.update
     );
 
+    // Eliminar un permiso
     router.delete(
         '/:id',
         auth.verifyToken,
-        permission.hasPermission(PERMISSIONS.DELETE_PERMISSION),
+        permission.hasPermission(PERMISSIONS.PERMISSION_DELETE),
         controlador.remove
     );
 

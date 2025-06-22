@@ -7,7 +7,7 @@ module.exports = {
     async up(queryInterface, Sequelize) {
         const permisos = Object.values(PERMISSIONS).map(codigo => ({
             codigo,
-            nombre: codigo.replace(/_/g, ' ').toLowerCase(), // 'CREATE_COURSE' → 'create course'
+            nombre: codigo.split(':')[1].replace(/_/g, ' '), // Ej: 'crear'
             createdAt: new Date(),
             updatedAt: new Date()
         }));
