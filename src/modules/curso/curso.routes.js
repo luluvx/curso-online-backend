@@ -10,7 +10,7 @@ module.exports = app => {
     router.post(
         '/',
         auth.verifyToken,
-        permission.hasPermission(PERMISSIONS.CREATE_COURSE),
+        permission.hasPermission(PERMISSIONS.COURSE_CREATE),
         controlador.create
     );
 
@@ -21,7 +21,7 @@ module.exports = app => {
     router.get(
         '/:id',
         auth.verifyToken,
-        permission.hasPermission(PERMISSIONS.VIEW_COURSE),
+        permission.hasPermission(PERMISSIONS.COURSE_VIEW),
         controlador.findById
     );
 
@@ -29,7 +29,7 @@ module.exports = app => {
     router.patch(
         '/:id',
         auth.verifyToken,
-        permission.hasPermission(PERMISSIONS.UPDATE_COURSE),
+        permission.hasPermission(PERMISSIONS.COURSE_UPDATE),
         controlador.update
     );
 
@@ -37,7 +37,7 @@ module.exports = app => {
     router.delete(
         '/:id',
         auth.verifyToken,
-        permission.hasPermission(PERMISSIONS.DELETE_COURSE),
+        permission.hasPermission(PERMISSIONS.COMMENT_DELETE),
         controlador.remove
     );
 
@@ -45,7 +45,7 @@ module.exports = app => {
     router.post(
         '/:id/imagen',
         auth.verifyToken,
-        permission.hasPermission(PERMISSIONS.UPDATE_COURSE),
+        permission.hasPermission(PERMISSIONS.COURSE_UPDATE),
         upload.single('imagen'),
         controlador.uploadPicture
     );

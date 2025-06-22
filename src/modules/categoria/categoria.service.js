@@ -7,7 +7,7 @@ const create = async ({ nombre, descripcion }) => {
         throw new BadRequestError('El nombre de la categoría es requerido');
     }
 
-    const existente = await Categoria.finOne({ where: { nombre } });
+    const existente = await Categoria.findOne({ where: { nombre } });
     if (existente) {
         throw new BadRequestError('Ya existe una categoría con ese nombre');
     }

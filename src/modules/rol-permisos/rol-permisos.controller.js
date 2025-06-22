@@ -1,4 +1,4 @@
-const rolPermisoService = require('@modules/rol-permisos/rolPermiso.service');
+const rolPermisoService = require('@modules/rol-permisos/rol-permisos.service');
 const { BadRequestError } = require('@utils/errors');
 
 exports.assignPermissions = async (req, res, next) => {
