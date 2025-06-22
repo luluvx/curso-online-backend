@@ -1,29 +1,42 @@
 {
-  "name": "curso-online-backend",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "start": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "bcrypt": "^6.0.0",
-    "body-parser": "^2.2.0",
-    "cookie-parser": "^1.4.7",
-    "cors": "^2.8.5",
-    "dotenv": "^16.5.0",
-    "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "multer": "^2.0.1",
-    "nodemon": "^3.1.10",
-    "pg": "^8.16.0",
-    "sequelize": "^6.37.7"
-  },
-  "devDependencies": {
-    "sequelize-cli": "^6.6.3"
-  }
+    "name": "curso-online-backend",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "start": "nodemon index.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "dependencies": {
+        "bcrypt": "^6.0.0",
+        "body-parser": "^2.2.0",
+        "cookie-parser": "^1.4.7",
+        "cors": "^2.8.5",
+        "dotenv": "^16.5.0",
+        "express": "^5.1.0",
+        "jsonwebtoken": "^9.0.2",
+        "module-alias": "^2.2.3",
+        "multer": "^2.0.1",
+        "nodemon": "^3.1.10",
+        "pg": "^8.16.0",
+        "sequelize": "^6.37.7"
+    },
+    "devDependencies": {
+        "prettier": "^3.5.3",
+        "sequelize-cli": "^6.6.3"
+    },
+    "_moduleAliases": {
+        "@controllers": "src/controllers",
+        "@middlewares": "src/middlewares",
+        "@models": "src/models",
+        "@routes": "src/routes",
+        "@services": "src/services",
+        "@utils": "src/utils",
+        "@db": "src/database",
+        "@config": "src/config",
+        "@modules": "src/modules"
+    }
 }

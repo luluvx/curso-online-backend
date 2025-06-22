@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@modules/*": ["src/modules/*"],
+            "@db/*": ["src/database/*"],
+            "@config/*": ["src/config/*"],
+            "@middlewares/*": ["src/middlewares/*"],
+            "@utils/*": ["src/utils/*"],
+            "@routes/*": ["src/routes/*"]
+        }
+    },
+    "include": ["src/**/*"]
+}
