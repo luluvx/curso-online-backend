@@ -11,4 +11,5 @@ module.exports = app => {
     require('@modules/comentario/comentario.routes')(app);
     require('@modules/progreso/progreso.routes')(app);
     require('@modules/usuario/usuario.routes')(app);
+    require('@modules/certificado/certificado.routes')(app);
 };
