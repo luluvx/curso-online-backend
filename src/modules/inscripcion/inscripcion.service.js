@@ -3,6 +3,7 @@ const Inscripcion = db.inscripciones;
 const Curso = db.cursos;
 const Usuario = db.usuarios;
 const { BadRequestError, NotFoundError } = require('@utils/errors');
+const ROLES = require('@constants/roles');
 
 const create = async (cursoId, estudianteId) => {
     const curso = await Curso.findByPk(cursoId);
@@ -11,7 +12,7 @@ const create = async (cursoId, estudianteId) => {
     const usuario = await Usuario.findByPk(estudianteId, { include: 'rol' });
     if (!usuario) throw new NotFoundError('Usuario no encontrado');
 
-    if (usuario.rol?.nombre !== 'estudiante') {
+    if (usuario.rol?.nombre !== ROLES.ESTUDIANTE_NOMBRE) {
         throw new BadRequestError('Solo los estudiantes pueden inscribirse');
     }
 

@@ -2,7 +2,7 @@ module.exports = app => {
     const router = require('express').Router();
     const controlador = require('@modules/categoria/categoria.controller');
     const auth = require('@middlewares/auth.middleware');
-    const { PERMISSIONS } = require('@config/permission.config');
+    const PERMISSIONS = require('@constants/permissions');
     const permission = require('@middlewares/permission.middleware');
 
     router.post(

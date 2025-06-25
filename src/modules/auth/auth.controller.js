@@ -1,15 +1,8 @@
-const authService = require('@modules/usuario/auth.service');
-
+const authService = require('@modules/auth/auth.service');
 const rolService = require('@modules/rol/rol.service');
 
 exports.login = async (req, res) => {
-    if (!req.body || Object.keys(req.body).length === 0) {
-        return res.status(400).json({ error: 'Por favor, complete todos los campos requeridos.' });
-    }
     const { email, password } = req.body;
-    if (!req.body.email || !req.body.password) {
-        return res.status(400).json({ error: 'Email y contraseña son requeridos' });
-    }
 
     try {
         const { token, usuario } = await authService.login(email, password);
@@ -31,15 +24,7 @@ exports.login = async (req, res) => {
 };
 
 exports.register = async (req, res) => {
-    if (!req.body || Object.keys(req.body).length === 0) {
-        return res.status(400).json({ error: 'Por favor, complete todos los campos requeridos.' });
-    }
-
     const { username, nombre, apellido, email, password, rolId } = req.body;
-
-    if (!username || !nombre || !apellido || !email || !password || !rolId) {
-        return res.status(400).json({ error: 'Todos los campos son requeridos' });
-    }
 
     try {
         const rol = await rolService.findById(rolId);

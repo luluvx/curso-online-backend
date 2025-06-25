@@ -1,13 +1,10 @@
-const db = require('@db');
+const db = require('@db/index');
 const Curso = db.cursos;
 const Usuario = db.usuarios;
 const { BadRequestError, NotFoundError } = require('@utils/errors');
+const ROLES = require('@constants/roles');
 
 const createCurso = async (titulo, descripcion, categoriaId, currentUserId, assignedProfesorId) => {
-    if (!titulo || !descripcion || !categoriaId) {
-        throw new BadRequestError('Título, descripción y categoría son requeridos');
-    }
-
     const categoria = await db.categorias.findByPk(categoriaId);
     if (!categoria) {
         throw new BadRequestError('Categoría no válida');
@@ -19,7 +16,7 @@ const createCurso = async (titulo, descripcion, categoriaId, currentUserId, assi
     }
 
     let ownerId;
-    if (caller.rol.nombre === 'administrador') {
+    if (caller.rol.codigo === ROLES.ADMIN) {
         if (!assignedProfesorId) {
             throw new BadRequestError('El campo profesorId es requerido para administradores');
         }
@@ -29,7 +26,7 @@ const createCurso = async (titulo, descripcion, categoriaId, currentUserId, assi
     }
 
     const profesor = await Usuario.findByPk(ownerId, { include: 'rol' });
-    if (!profesor || profesor.rol.nombre !== 'profesor') {
+    if (!profesor || profesor.rol.codigo !== ROLES.PROFESOR) {
         throw new BadRequestError('El usuario asignado no es profesor válido');
     }
 
@@ -118,8 +115,8 @@ const updateCursoPicture = async (id, imagenUrl, currentUserId) => {
         throw new BadRequestError('Usuario no encontrado');
     }
 
-    const rol = caller.rol.nombre;
-    if (rol !== 'administrador' && curso.profesorId !== currentUserId) {
+    const rol = caller.rol.codigo;
+    if (rol !== ROLES.ADMIN && curso.profesorId !== currentUserId) {
         throw new BadRequestError('No tienes permiso para modificar este curso');
     }
 

@@ -3,9 +3,10 @@ module.exports = app => {
     const controlador = require('@modules/inscripcion/inscripcion.controller');
     const auth = require('@middlewares/auth.middleware');
     const permission = require('@middlewares/permission.middleware');
-    const { PERMISSIONS } = require('@config/permission.config');
+    const PERMISSIONS = require('@constants/permissions');
+   
 
-    // Inscribirse a un curso (solo estudiantes)
+
     router.post(
         '/cursos/:cursoId/inscripcion',
         auth.verifyToken,
@@ -13,7 +14,7 @@ module.exports = app => {
         controlador.create
     );
 
-    // Listar inscripciones a un curso (admin o profesor dueño)
+
     router.get(
         '/cursos/:cursoId/inscripciones',
         auth.verifyToken,
@@ -21,7 +22,7 @@ module.exports = app => {
         controlador.findByCurso
     );
 
-    //  Ver cursos donde estoy inscrito (solo estudiante)
+
     router.get(
         '/mis-cursos',
         auth.verifyToken,

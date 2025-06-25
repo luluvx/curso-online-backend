@@ -3,9 +3,9 @@ module.exports = app => {
     const controlador = require('@modules/rol-permisos/rol-permisos.controller');
     const auth = require('@middlewares/auth.middleware');
     const permission = require('@middlewares/permission.middleware');
-    const { PERMISSIONS } = require('@config/permission.config');
+    const PERMISSIONS = require('@constants/permissions');
 
-    // Ver permisos asignados a un rol
+
     router.get(
         '/:rolId',
         auth.verifyToken,
@@ -13,7 +13,7 @@ module.exports = app => {
         controlador.getPermissionsByRole
     );
 
-    // Asignar permisos a un rol
+
     router.post(
         '/',
         auth.verifyToken,

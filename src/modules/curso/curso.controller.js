@@ -1,16 +1,12 @@
-const servicio = require('@modules/curso/curso.service');
+const cursoService = require('@modules/curso/curso.service');
 const { BadRequestError } = require('@utils/errors');
 
 exports.create = async (req, res, next) => {
     try {
-        if (!req.body || Object.keys(req.body).length === 0) {
-            throw new BadRequestError('El cuerpo de la petición no puede estar vacío');
-        }
-
         const { titulo, descripcion, categoriaId, profesorId: assignedProfesorId } = req.body;
         const currentUserId = req.user.id;
 
-        const curso = await servicio.createCurso(
+        const curso = await cursoService.createCurso(
             titulo,
             descripcion,
             categoriaId,
@@ -29,7 +25,7 @@ exports.create = async (req, res, next) => {
 
 exports.findAll = async (req, res, next) => {
     try {
-        const cursos = await servicio.getCursos();
+        const cursos = await cursoService.getCursos();
         res.status(200).json(cursos);
     } catch (err) {
         next(err);
@@ -48,9 +44,6 @@ exports.findById = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
     try {
-        if (!req.body || Object.keys(req.body).length === 0) {
-            throw new BadRequestError('El cuerpo de la petición no puede estar vacío');
-        }
         const datos = req.body;
         const usuarioId = req.user.id;
         const curso = await servicio.updateCurso(req.params.id, datos, usuarioId);

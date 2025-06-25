@@ -2,10 +2,11 @@ module.exports = app => {
     const router = require('express').Router();
     const controlador = require('@modules/video/video.controller');
     const auth = require('@middlewares/auth.middleware');
-    const { PERMISSIONS } = require('@config/permission.config');
+    const PERMISSIONS = require('@constants/permissions');
     const permission = require('@middlewares/permission.middleware');
+   
 
-    // Agregar vídeo a un curso
+
     router.post(
         '/cursos/:cursoId/videos',
         auth.verifyToken,
@@ -13,7 +14,7 @@ module.exports = app => {
         controlador.create
     );
 
-    // Listar vídeos de un curso
+
     router.get(
         '/cursos/:cursoId/videos',
         auth.verifyToken,
@@ -21,7 +22,7 @@ module.exports = app => {
         controlador.findAll
     );
 
-    // Ver detalle de un vídeo
+
     router.get(
         '/videos/:id',
         auth.verifyToken,
@@ -29,7 +30,7 @@ module.exports = app => {
         controlador.findById
     );
 
-    // Actualizar un vídeo
+
     router.patch(
         '/videos/:id',
         auth.verifyToken,
@@ -37,7 +38,7 @@ module.exports = app => {
         controlador.update
     );
 
-    // Eliminar un vídeo
+
     router.delete(
         '/videos/:id',
         auth.verifyToken,

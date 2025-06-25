@@ -1,0 +1,24 @@
+module.exports = app => {
+    const router = require('express').Router();
+    const controlador = require('./usuario.controller');
+    const auth = require('@middlewares/auth.middleware');
+    const permission = require('@middlewares/permission.middleware');
+    const PERMISSIONS = require('@constants/permissions');
+
+
+    router.get('/', auth.verifyToken, permission.hasPermission(PERMISSIONS.USER_LIST), controlador.findAll);
+
+
+    router.get('/:id', auth.verifyToken, permission.hasPermission(PERMISSIONS.USER_VIEW), controlador.findById);
+
+
+    router.patch('/:id', auth.verifyToken, permission.hasPermission(PERMISSIONS.USER_UPDATE), controlador.update);
+
+
+    router.delete('/:id', auth.verifyToken, permission.hasPermission(PERMISSIONS.USER_DELETE), controlador.remove);
+
+
+    router.get('/me', auth.verifyToken, controlador.getMe);
+
+    app.use('/api/usuarios', router);
+}; 

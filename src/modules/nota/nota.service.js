@@ -4,10 +4,9 @@ const Inscripcion = db.inscripciones;
 const Curso = db.cursos;
 const Usuario = db.usuarios;
 const { BadRequestError, NotFoundError, ForbiddenError } = require('@utils/errors');
+const ROLES = require('@constants/roles');
 
 const create = async (inscripcionId, valor, descripcion, usuarioId) => {
-    if (valor == null) throw new BadRequestError('El valor de la nota es requerido');
-
     const inscripcion = await Inscripcion.findByPk(inscripcionId);
     if (!inscripcion) throw new NotFoundError('Inscripción no encontrada');
 
@@ -15,7 +14,7 @@ const create = async (inscripcionId, valor, descripcion, usuarioId) => {
     const usuario = await Usuario.findByPk(usuarioId, { include: 'rol' });
     if (!usuario) throw new NotFoundError('Usuario no encontrado');
 
-    const esAdmin = usuario.rol?.nombre === 'administrador';
+    const esAdmin = usuario.rol?.codigo === ROLES.ADMIN;
     const esProfesor = curso.profesorId === usuarioId;
     if (!esAdmin && !esProfesor) {
         throw new ForbiddenError('No tienes permiso para asignar notas en este curso');
@@ -32,7 +31,7 @@ const findByInscripcion = async (inscripcionId, usuarioId) => {
     const usuario = await Usuario.findByPk(usuarioId, { include: 'rol' });
     if (!usuario) throw new NotFoundError('Usuario no encontrado');
 
-    const esAdmin = usuario.rol?.nombre === 'administrador';
+    const esAdmin = usuario.rol?.codigo === ROLES.ADMIN;
     const esProfesor = curso.profesorId === usuarioId;
     const esEstudiante = inscripcion.estudianteId === usuarioId;
 
