@@ -1,7 +1,7 @@
 const { body, param } = require('express-validator');
 
 exports.createNota = [
-    body('inscripcionId').isInt().withMessage('La inscripción debe ser un número'),
+    param('inscripcionId').isInt().withMessage('La inscripción debe ser un número'),
     body('valor').isNumeric().withMessage('El valor debe ser numérico'),
     body('descripcion').optional().isString().withMessage('La descripción debe ser texto'),
 ];
