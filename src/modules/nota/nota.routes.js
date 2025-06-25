@@ -2,10 +2,10 @@ module.exports = app => {
     const router = require('express').Router();
     const controlador = require('@modules/nota/nota.controller');
     const auth = require('@middlewares/auth.middleware');
-    const { PERMISSIONS } = require('@config/permission.config');
+    const PERMISSIONS = require('@constants/permissions');
     const permission = require('@middlewares/permission.middleware');
+  
 
-    // Asignar nota a una inscripción (solo admin o profesor dueño)
     router.post(
         '/inscripciones/:inscripcionId/notas',
         auth.verifyToken,
@@ -13,7 +13,7 @@ module.exports = app => {
         controlador.create
     );
 
-    // Ver notas de una inscripción (admin, profesor dueño o estudiante)
+
     router.get(
         '/inscripciones/:inscripcionId/notas',
         auth.verifyToken,
@@ -21,7 +21,7 @@ module.exports = app => {
         controlador.findByInscripcion
     );
 
-    // Ver mis notas (solo estudiante)
+
     router.get(
         '/mis-notas',
         auth.verifyToken,

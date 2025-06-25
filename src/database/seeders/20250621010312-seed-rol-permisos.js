@@ -1,6 +1,7 @@
 'use strict';
 
-const { PERMISSIONS } = require('../../config/permission.config');
+const ROLES = require('../../constants/roles');
+const PERMISSIONS = require('../../constants/permissions');
 
 module.exports = {
     async up(queryInterface, Sequelize) {
@@ -12,12 +13,12 @@ module.exports = {
 
         const data = [];
 
-        // Admin: todos los permisos
+
         for (const permisoId of Object.values(permisosMap)) {
-            data.push({ rolId: rolesMap['ADMIN'], permisoId });
+            data.push({ rolId: rolesMap[ROLES.ADMIN], permisoId });
         }
 
-        // Profesor
+
         const permisosProfesor = [
             PERMISSIONS.COURSE_CREATE,
             PERMISSIONS.COURSE_LIST,
@@ -36,10 +37,10 @@ module.exports = {
             PERMISSIONS.ENROLLMENT_LIST
         ];
         for (const codigo of permisosProfesor) {
-            data.push({ rolId: rolesMap['PROF'], permisoId: permisosMap[codigo] });
+            data.push({ rolId: rolesMap[ROLES.PROFESOR], permisoId: permisosMap[codigo] });
         }
 
-        // Estudiante
+
         const permisosEstudiante = [
             PERMISSIONS.COURSE_LIST,
             PERMISSIONS.CATEGORY_LIST,
@@ -54,10 +55,12 @@ module.exports = {
             PERMISSIONS.COMMENT_ADD,
             PERMISSIONS.COMMENT_LIST,
             PERMISSIONS.COMMENT_UPDATE,
-            PERMISSIONS.COMMENT_DELETE
+            PERMISSIONS.COMMENT_DELETE,
+
+            PERMISSIONS.VIEW_PROGRESS
         ];
         for (const codigo of permisosEstudiante) {
-            data.push({ rolId: rolesMap['EST'], permisoId: permisosMap[codigo] });
+            data.push({ rolId: rolesMap[ROLES.ESTUDIANTE], permisoId: permisosMap[codigo] });
         }
 
         await queryInterface.bulkInsert('rol_permisos', data, {});

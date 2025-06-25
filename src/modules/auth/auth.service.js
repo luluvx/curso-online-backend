@@ -1,6 +1,7 @@
-const db = require('@db');
+const db = require('@db/index');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { BadRequestError, NotFoundError } = require('@utils/errors');
 
 const login = async (email, password) => {
     const usuario = await db.usuarios.findOne({
@@ -56,10 +57,6 @@ const login = async (email, password) => {
 };
 
 const register = async (username, nombre, apellido, email, password, rolId) => {
-    if (!username || !nombre || !apellido || !email || !password || !rolId) {
-        throw new Error('Todos los campos son requeridos');
-    }
-
     const existingUser = await db.usuarios.findOne({ where: { email } });
     if (existingUser) {
         throw new Error('El email ya está registrado');

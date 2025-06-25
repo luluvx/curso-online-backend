@@ -1,26 +1,28 @@
 'use strict';
 
 /** @type {import('sequelize-cli').Migration} */
+const ROLES = require('../../constants/roles');
+
 module.exports = {
     async up(queryInterface, Sequelize) {
         await queryInterface.bulkInsert(
             'roles',
             [
                 {
-                    codigo: 'ADMIN',
-                    nombre: 'administrador',
+                    codigo: ROLES.ADMIN,
+                    nombre: ROLES.ADMIN_NOMBRE,
                     createdAt: new Date(),
                     updatedAt: new Date()
                 },
                 {
-                    codigo: 'PROF',
-                    nombre: 'profesor',
+                    codigo: ROLES.PROFESOR,
+                    nombre: ROLES.PROFESOR_NOMBRE,
                     createdAt: new Date(),
                     updatedAt: new Date()
                 },
                 {
-                    codigo: 'EST',
-                    nombre: 'estudiante',
+                    codigo: ROLES.ESTUDIANTE,
+                    nombre: ROLES.ESTUDIANTE_NOMBRE,
                     createdAt: new Date(),
                     updatedAt: new Date()
                 }
@@ -33,7 +35,7 @@ module.exports = {
         await queryInterface.bulkDelete(
             'roles',
             {
-                codigo: ['ADMIN', 'PROF', 'EST']
+                codigo: [ROLES.ADMIN, ROLES.PROFESOR, ROLES.ESTUDIANTE]
             },
             {}
         );

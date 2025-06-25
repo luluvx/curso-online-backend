@@ -1,9 +1,8 @@
 const db = require('@db/index');
 const Comentario = db.comentarios;
-const { NotFoundError, BadRequestError } = require('@utils/errors');
+const { NotFoundError } = require('@utils/errors');
 
 const create = async ({ cursoId, usuarioId, contenido }) => {
-    if (!contenido) throw new BadRequestError('El contenido no puede estar vacío');
     return await Comentario.create({ cursoId, usuarioId, contenido });
 };
 

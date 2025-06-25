@@ -2,10 +2,10 @@ module.exports = app => {
     const router = require('express').Router();
     const controlador = require('@modules/rol/rol.controller');
     const auth = require('@middlewares/auth.middleware');
-    const { PERMISSIONS } = require('@config/permission.config');
+    const PERMISSIONS = require('@constants/permissions');
     const permission = require('@middlewares/permission.middleware');
 
-    // Crear rol
+
     router.post(
         '/',
         auth.verifyToken,
@@ -13,7 +13,7 @@ module.exports = app => {
         controlador.create
     );
 
-    // Listar roles
+
     router.get(
         '/',
         auth.verifyToken,
@@ -21,7 +21,7 @@ module.exports = app => {
         controlador.findAll
     );
 
-    // Ver un rol
+
     router.get(
         '/:id',
         auth.verifyToken,
@@ -29,7 +29,7 @@ module.exports = app => {
         controlador.findById
     );
 
-    // Actualizar rol
+
     router.put(
         '/:id',
         auth.verifyToken,
@@ -37,7 +37,7 @@ module.exports = app => {
         controlador.update
     );
 
-    // Eliminar rol
+
     router.delete(
         '/:id',
         auth.verifyToken,

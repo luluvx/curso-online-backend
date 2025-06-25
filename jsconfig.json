@@ -7,7 +7,8 @@
             "@config/*": ["src/config/*"],
             "@middlewares/*": ["src/middlewares/*"],
             "@utils/*": ["src/utils/*"],
-            "@routes/*": ["src/routes/*"]
+            "@routes/*": ["src/routes/*"],
+            "@constants/*": ["src/constants/*"]
         }
     },
     "include": ["src/**/*"]

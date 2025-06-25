@@ -2,10 +2,10 @@ module.exports = app => {
     const router = require('express').Router();
     const controlador = require('@modules/permiso/permiso.controller');
     const auth = require('@middlewares/auth.middleware');
-    const { PERMISSIONS } = require('@config/permission.config');
+    const PERMISSIONS = require('@constants/permissions');
     const permission = require('@middlewares/permission.middleware');
 
-    // Listar todos los permisos
+
     router.get(
         '/',
         auth.verifyToken,
@@ -13,7 +13,7 @@ module.exports = app => {
         controlador.findAll
     );
 
-    // Crear un permiso
+
     router.post(
         '/',
         auth.verifyToken,
@@ -21,7 +21,7 @@ module.exports = app => {
         controlador.create
     );
 
-    // Actualizar un permiso
+
     router.put(
         '/:id',
         auth.verifyToken,
@@ -29,7 +29,7 @@ module.exports = app => {
         controlador.update
     );
 
-    // Eliminar un permiso
+
     router.delete(
         '/:id',
         auth.verifyToken,

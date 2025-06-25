@@ -25,6 +25,7 @@ db.notas = require('@modules/nota/nota.model.js')(sequelize, Sequelize);
 db.permisos = require('@modules/permiso/permiso.model.js')(sequelize, Sequelize);
 db.rolPermisos = require('@modules/rol-permisos/rol-permisos.model.js')(sequelize, Sequelize);
 db.comentarios = require('@modules/comentario/comentario.model.js')(sequelize, Sequelize);
+db.progresos = require('@modules/progreso/progreso.model.js')(sequelize, Sequelize);
 
 // Un rol puede tener muchos usuarios
 db.roles.hasMany(db.usuarios, {

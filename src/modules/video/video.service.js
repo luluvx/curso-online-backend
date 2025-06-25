@@ -4,23 +4,23 @@ const Curso = db.cursos;
 const Usuario = db.usuarios;
 const Inscripcion = db.inscripciones;
 const { BadRequestError, NotFoundError, ForbiddenError } = require('@utils/errors');
+const ROLES = require('@constants/roles');
 
 const create = async (cursoId, titulo, url, orden, usuarioId) => {
-    if (!titulo || !url || orden == null) {
-        throw new BadRequestError('Título, URL y orden son requeridos');
-    }
-
     const curso = await Curso.findByPk(cursoId);
     if (!curso) throw new NotFoundError('Curso no encontrado');
 
     const usuario = await Usuario.findByPk(usuarioId, { include: 'rol' });
     if (!usuario) throw new BadRequestError('Usuario no encontrado');
 
-    const esAdmin = usuario.rol.nombre === 'administrador';
+    const esAdmin = usuario.rol.codigo === ROLES.ADMIN;
     const esPropietario = curso.profesorId === usuarioId;
     if (!esAdmin && !esPropietario) {
         throw new ForbiddenError('No tienes permiso para agregar vídeos a este curso');
     }
+
+    const existeOrden = await Video.findOne({ where: { cursoId, orden } });
+    if (existeOrden) throw new BadRequestError('El orden del vídeo ya existe');
 
     return await Video.create({ titulo, url, orden, cursoId });
 };
@@ -32,7 +32,7 @@ const findAll = async (cursoId, usuarioId) => {
     const usuario = await Usuario.findByPk(usuarioId, { include: 'rol' });
     if (!usuario) throw new BadRequestError('Usuario no encontrado');
 
-    const esAdmin = usuario.rol.nombre === 'administrador';
+    const esAdmin = usuario.rol.codigo === ROLES.ADMIN;
     const esPropietario = curso.profesorId === usuarioId;
 
     if (!esAdmin && !esPropietario) {
@@ -65,10 +65,15 @@ const update = async (id, cambios, usuarioId) => {
     const curso = await Curso.findByPk(video.cursoId);
     const usuario = await Usuario.findByPk(usuarioId, { include: 'rol' });
 
-    const esAdmin = usuario.rol.nombre === 'administrador';
+    const esAdmin = usuario.rol.codigo === ROLES.ADMIN;
     const esPropietario = curso.profesorId === usuarioId;
     if (!esAdmin && !esPropietario) {
         throw new ForbiddenError('No tienes permiso para editar este vídeo');
+    }
+
+    if (cambios.orden && cambios.orden !== video.orden) {
+        const existeOrden = await Video.findOne({ where: { cursoId: video.cursoId, orden: cambios.orden } });
+        if (existeOrden) throw new BadRequestError('El orden del vídeo ya existe');
     }
 
     Object.assign(video, {
@@ -87,7 +92,7 @@ const remove = async (id, usuarioId) => {
 
     const curso = await Curso.findByPk(video.cursoId);
     const usuario = await Usuario.findByPk(usuarioId, { include: 'rol' });
-    const esAdmin = usuario.rol.nombre === 'administrador';
+    const esAdmin = usuario.rol.codigo === ROLES.ADMIN;
     const esPropietario = curso.profesorId === usuarioId;
     if (!esAdmin && !esPropietario) {
         throw new ForbiddenError('No tienes permiso para eliminar este vídeo');

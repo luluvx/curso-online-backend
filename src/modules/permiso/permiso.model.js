@@ -5,9 +5,9 @@ module.exports = (sequelize, DataTypes) => {
             codigo: {
                 type: DataTypes.STRING,
                 allowNull: false,
-                unique: true // por ejemplo "crear:curso", "editar:comentario"
+                unique: true
             },
-            nombre: {
+            descripcion: {
                 type: DataTypes.STRING,
                 allowNull: true
             }
