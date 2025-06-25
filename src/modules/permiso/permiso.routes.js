@@ -4,6 +4,8 @@ module.exports = app => {
     const auth = require('@middlewares/auth.middleware');
     const PERMISSIONS = require('@constants/permissions');
     const permission = require('@middlewares/permission.middleware');
+    const permisoValidation = require('@validations/permiso.validation');
+    const validate = require('@middlewares/validationResult.middleware');
 
 
     router.get(
@@ -18,6 +20,8 @@ module.exports = app => {
         '/',
         auth.verifyToken,
         permission.hasPermission(PERMISSIONS.PERMISSION_CREATE),
+        permisoValidation.createPermiso,
+        validate,
         controlador.create
     );
 
@@ -26,6 +30,8 @@ module.exports = app => {
         '/:id',
         auth.verifyToken,
         permission.hasPermission(PERMISSIONS.PERMISSION_UPDATE),
+        permisoValidation.updatePermiso,
+        validate,
         controlador.update
     );
 

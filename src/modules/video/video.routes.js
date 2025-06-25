@@ -4,13 +4,17 @@ module.exports = app => {
     const auth = require('@middlewares/auth.middleware');
     const PERMISSIONS = require('@constants/permissions');
     const permission = require('@middlewares/permission.middleware');
-   
+    const videoValidation = require('@validations/video.validation');
+    const validate = require('@middlewares/validationResult.middleware');
+
 
 
     router.post(
         '/cursos/:cursoId/videos',
         auth.verifyToken,
         permission.hasPermission(PERMISSIONS.VIDEO_ADD),
+        videoValidation.createVideo,
+        validate,
         controlador.create
     );
 
@@ -35,6 +39,8 @@ module.exports = app => {
         '/videos/:id',
         auth.verifyToken,
         permission.hasPermission(PERMISSIONS.VIDEO_UPDATE),
+        videoValidation.updateVideo,
+        validate,
         controlador.update
     );
 

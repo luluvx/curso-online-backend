@@ -4,13 +4,15 @@ module.exports = app => {
     const auth = require('@middlewares/auth.middleware');
     const permission = require('@middlewares/permission.middleware');
     const PERMISSIONS = require('@constants/permissions');
-   
-
+    const inscripcionValidation = require('@validations/inscripcion.validation');
+    const validate = require('@middlewares/validationResult.middleware');
 
     router.post(
         '/cursos/:cursoId/inscripcion',
         auth.verifyToken,
         permission.hasPermission(PERMISSIONS.ENROLL_IN_COURSE),
+        inscripcionValidation.createInscripcion,
+        validate,
         controlador.create
     );
 
@@ -29,6 +31,7 @@ module.exports = app => {
         permission.hasPermission(PERMISSIONS.MY_COURSES_VIEW),
         controlador.findByEstudiante
     );
+
 
     app.use('/api', router);
 };

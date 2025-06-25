@@ -39,6 +39,7 @@
         "@db": "src/database",
         "@config": "src/config",
         "@modules": "src/modules",
-        "@constants": "src/constants"
+        "@constants": "src/constants",
+        "@validations": "src/validations"
     }
 }
