@@ -69,8 +69,50 @@ const findMine = async usuarioId => {
     });
 };
 
+const update = async (id, datos, usuarioId) => {
+    const nota = await Nota.findByPk(id, { include: { model: Inscripcion, as: 'inscripcion' } });
+    if (!nota) throw new NotFoundError('Nota no encontrada');
+
+    const inscripcion = nota.inscripcion;
+    const curso = await Curso.findByPk(inscripcion.cursoId);
+    const usuario = await Usuario.findByPk(usuarioId, { include: 'rol' });
+    if (!usuario) throw new NotFoundError('Usuario no encontrado');
+
+    const esAdmin = usuario.rol?.codigo === ROLES.ADMIN;
+    const esProfesor = curso.profesorId === usuarioId;
+    if (!esAdmin && !esProfesor) {
+        throw new ForbiddenError('No tienes permiso para editar esta nota');
+    }
+
+    if (datos.valor !== undefined) nota.valor = datos.valor;
+    if (datos.descripcion !== undefined) nota.descripcion = datos.descripcion;
+    await nota.save();
+    return nota;
+};
+
+const remove = async (id, usuarioId) => {
+    const nota = await Nota.findByPk(id, { include: { model: Inscripcion, as: 'inscripcion' } });
+    if (!nota) throw new NotFoundError('Nota no encontrada');
+
+    const inscripcion = nota.inscripcion;
+    const curso = await Curso.findByPk(inscripcion.cursoId);
+    const usuario = await Usuario.findByPk(usuarioId, { include: 'rol' });
+    if (!usuario) throw new NotFoundError('Usuario no encontrado');
+
+    const esAdmin = usuario.rol?.codigo === ROLES.ADMIN;
+    const esProfesor = curso.profesorId === usuarioId;
+    if (!esAdmin && !esProfesor) {
+        throw new ForbiddenError('No tienes permiso para eliminar esta nota');
+    }
+
+    await nota.destroy();
+    return { message: 'Nota eliminada exitosamente' };
+};
+
 module.exports = {
     create,
     findByInscripcion,
-    findMine
+    findMine,
+    update,
+    remove
 };

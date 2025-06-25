@@ -4,12 +4,16 @@ module.exports = app => {
     const auth = require('@middlewares/auth.middleware');
     const PERMISSIONS = require('@constants/permissions');
     const permission = require('@middlewares/permission.middleware');
+    const rolValidation = require('@validations/rol.validation');
+    const validate = require('@middlewares/validationResult.middleware');
 
 
     router.post(
         '/',
         auth.verifyToken,
         permission.hasPermission(PERMISSIONS.ROLE_CREATE),
+        rolValidation.createRol,
+        validate,
         controlador.create
     );
 
@@ -34,6 +38,8 @@ module.exports = app => {
         '/:id',
         auth.verifyToken,
         permission.hasPermission(PERMISSIONS.ROLE_UPDATE),
+        rolValidation.updateRol,
+        validate,
         controlador.update
     );
 

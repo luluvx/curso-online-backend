@@ -4,11 +4,15 @@ module.exports = app => {
     const auth = require('@middlewares/auth.middleware');
     const permission = require('@middlewares/permission.middleware');
     const PERMISSIONS = require('@constants/permissions');
-    
+    const comentarioValidation = require('@validations/comentario.validation');
+    const validate = require('@middlewares/validationResult.middleware');
+
     router.post(
         '/cursos/:cursoId/comentarios',
         auth.verifyToken,
         permission.hasPermission(PERMISSIONS.COMMENT_ADD),
+        comentarioValidation.createComentario,
+        validate,
         controlador.create
     );
 
@@ -23,6 +27,8 @@ module.exports = app => {
         '/comentarios/:id',
         auth.verifyToken,
         permission.hasPermission(PERMISSIONS.COMMENT_UPDATE),
+        comentarioValidation.updateComentario,
+        validate,
         controlador.update
     );
 
