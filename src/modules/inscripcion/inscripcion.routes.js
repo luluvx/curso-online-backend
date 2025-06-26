@@ -32,6 +32,19 @@ module.exports = app => {
         controlador.findByEstudiante
     );
 
+    router.get(
+        '/inscripciones/:id',
+        auth.verifyToken,
+        permission.hasPermission(PERMISSIONS.ENROLLMENT_VIEW),
+        controlador.findById
+    );
+
+    router.delete(
+        '/inscripciones/:id',
+        auth.verifyToken,
+        permission.hasPermission(PERMISSIONS.ENROLLMENT_DELETE),
+        controlador.remove
+    );
 
     app.use('/api', router);
 };

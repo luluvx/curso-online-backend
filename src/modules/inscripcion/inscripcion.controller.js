@@ -11,6 +11,27 @@ exports.create = async (req, res, next) => {
     }
 };
 
+exports.findById = async (req, res, next) => {
+    try {
+        const inscripcionId = req.params.id;
+        const inscripcion = await inscripcionService.findById(inscripcionId);
+        res.status(200).json(inscripcion);
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.remove = async (req, res, next) => {
+    try {
+        const inscripcionId = req.params.id;
+        const usuarioId = req.user.id;
+        const result = await inscripcionService.remove(inscripcionId, usuarioId);
+        res.status(200).json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
 exports.findByCurso = async (req, res, next) => {
     try {
         const cursoId = req.params.cursoId;

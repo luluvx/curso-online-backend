@@ -23,12 +23,7 @@ module.exports = app => {
     router.get('/', controlador.findAll);
 
 
-    router.get(
-        '/:id',
-        auth.verifyToken,
-        permission.hasPermission(PERMISSIONS.COURSE_VIEW),
-        controlador.findById
-    );
+    router.get('/:id', controlador.findById);
 
 
     router.patch(
