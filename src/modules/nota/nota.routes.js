@@ -34,7 +34,7 @@ module.exports = app => {
     );
 
     router.patch(
-        '/:id',
+        '/notas/:id',
         auth.verifyToken,
         permission.hasPermission(PERMISSIONS.GRADE_UPDATE),
         notaValidation.updateNota,
@@ -43,7 +43,7 @@ module.exports = app => {
     );
 
     router.delete(
-        '/:id',
+        '/notas/:id',
         auth.verifyToken,
         permission.hasPermission(PERMISSIONS.GRADE_DELETE),
         notaValidation.deleteNota,
