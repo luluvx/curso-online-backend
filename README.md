@@ -101,6 +101,17 @@ Content-Type: application/json
 
 ## Endpoints
 
+### Rutas Públicas vs Privadas
+
+**Rutas Públicas** (No requieren autenticación):
+- Ver todos los cursos
+- Ver curso específico
+- Ver todas las categorías
+- Ver categoría específica
+
+**Rutas Privadas** (Requieren autenticación):
+- Todas las demás operaciones (crear, actualizar, eliminar, inscribirse, etc.)
+
 ### Usuarios
 
 #### Obtener todos los usuarios
@@ -145,14 +156,14 @@ Authorization: Bearer <token>
 #### Obtener todos los cursos
 ```http
 GET /api/cursos
-Authorization: Bearer <token>
 ```
+*Ruta pública - No requiere autenticación*
 
 #### Obtener curso por ID
 ```http
 GET /api/cursos/:id
-Authorization: Bearer <token>
 ```
+*Ruta pública - No requiere autenticación*
 
 #### Crear curso
 ```http
@@ -394,8 +405,14 @@ Authorization: Bearer <token>
 #### Obtener todas las categorías
 ```http
 GET /api/categorias
-Authorization: Bearer <token>
 ```
+*Ruta pública - No requiere autenticación*
+
+#### Obtener categoría por ID
+```http
+GET /api/categorias/:id
+```
+*Ruta pública - No requiere autenticación*
 
 #### Crear categoría
 ```http
