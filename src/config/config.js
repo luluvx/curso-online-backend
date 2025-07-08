@@ -16,5 +16,10 @@ module.exports = {
         host: process.env.DB_HOST || '127.0.0.1',
         dialect: process.env.DB_DIALECT || 'postgres',
         port: process.env.DB_PORT || 5432
+    },
+    test: {
+        dialect: 'sqlite',
+        storage: ':memory:',
+        logging: false
     }
 };

@@ -3,10 +3,11 @@ const Nota = db.notas;
 const Inscripcion = db.inscripciones;
 const Curso = db.cursos;
 const Usuario = db.usuarios;
+const TipoNota = db.tipoNota;
 const { BadRequestError, NotFoundError, ForbiddenError } = require('@utils/errors');
 const ROLES = require('@constants/roles');
 
-const create = async (inscripcionId, valor, descripcion, usuarioId) => {
+const create = async (inscripcionId, valor, tipoNotaId, usuarioId) => {
     const inscripcion = await Inscripcion.findByPk(inscripcionId);
     if (!inscripcion) throw new NotFoundError('Inscripción no encontrada');
 
@@ -20,7 +21,11 @@ const create = async (inscripcionId, valor, descripcion, usuarioId) => {
         throw new ForbiddenError('No tienes permiso para asignar notas en este curso');
     }
 
-    return await Nota.create({ inscripcionId, valor, descripcion });
+    // Validar que el tipoNotaId pertenezca al curso
+    const tipoNota = await TipoNota.findOne({ where: { id: tipoNotaId, cursoId: curso.id } });
+    if (!tipoNota) throw new BadRequestError('Tipo de nota inválido para este curso');
+
+    return await Nota.create({ inscripcionId, valor, tipoNotaId });
 };
 
 const findByInscripcion = async (inscripcionId, usuarioId) => {
@@ -41,7 +46,14 @@ const findByInscripcion = async (inscripcionId, usuarioId) => {
 
     return await Nota.findAll({
         where: { inscripcionId },
-        order: [['createdAt', 'ASC']]
+        include: [
+            {
+                model: TipoNota,
+                as: 'tipoNota',
+                attributes: ['id', 'nombre']
+            }
+        ],
+        order: [[{ model: TipoNota, as: 'tipoNota' }, 'id', 'ASC']]
     });
 };
 
@@ -63,9 +75,14 @@ const findMine = async usuarioId => {
                         attributes: ['id', 'titulo']
                     }
                 ]
+            },
+            {
+                model: TipoNota,
+                as: 'tipoNota',
+                attributes: ['id', 'nombre']
             }
         ],
-        order: [['createdAt', 'ASC']]
+        order: [[{ model: TipoNota, as: 'tipoNota' }, 'id', 'ASC']]
     });
 };
 
@@ -85,7 +102,7 @@ const update = async (id, datos, usuarioId) => {
     }
 
     if (datos.valor !== undefined) nota.valor = datos.valor;
-    if (datos.descripcion !== undefined) nota.descripcion = datos.descripcion;
+    if (datos.tipoNotaId !== undefined) nota.tipoNotaId = datos.tipoNotaId;
     await nota.save();
     return nota;
 };

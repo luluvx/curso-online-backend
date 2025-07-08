@@ -2,11 +2,11 @@ const notaService = require('@modules/nota/nota.service');
 
 exports.create = async (req, res, next) => {
     try {
-        const { valor, descripcion } = req.body;
+        const { valor, tipoNotaId } = req.body;
         const inscripcionId = req.params.inscripcionId;
         const usuarioId = req.user.id;
 
-        const nota = await notaService.create(inscripcionId, valor, descripcion, usuarioId);
+        const nota = await notaService.create(inscripcionId, valor, tipoNotaId, usuarioId);
         res.status(201).json(nota);
     } catch (error) {
         next(error);

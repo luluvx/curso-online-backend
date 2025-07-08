@@ -2,14 +2,19 @@ const db = require('@db');
 const Usuario = db.usuarios;
 const { NotFoundError, BadRequestError } = require('@utils/errors');
 
-const findAll = async () => {
+const findAll = async (rolCodigo) => {
+    const where = {};
+    let include = [{
+        model: db.roles,
+        as: 'rol',
+        attributes: ['id', 'codigo', 'nombre']
+    }];
+    if (rolCodigo) {
+        include[0].where = { codigo: rolCodigo };
+    }
     return await Usuario.findAll({
         attributes: { exclude: ['password', 'rolId'] },
-        include: [{
-            model: db.roles,
-            as: 'rol',
-            attributes: ['id','codigo', 'nombre']
-        }]
+        include
     });
 };
 
@@ -19,7 +24,7 @@ const findById = async id => {
         include: [{
             model: db.roles,
             as: 'rol',
-            attributes: [ 'id','codigo', 'nombre']
+            attributes: ['id', 'codigo', 'nombre']
         }]
     });
     if (!usuario) throw new NotFoundError('Usuario no encontrado');

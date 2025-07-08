@@ -61,3 +61,20 @@ exports.remove = async (req, res, next) => {
         next(error);
     }
 };
+
+exports.reordenarVideos = async (req, res, next) => {
+    try {
+        const cursoId = req.params.cursoId;
+        const usuarioId = req.user.id;
+        const { ordenes } = req.body;
+
+        if (!Array.isArray(ordenes) || ordenes.length === 0) {
+            return res.status(400).json({ error: 'El array ordenes es requerido y no puede estar vacío' });
+        }
+
+        await videoService.reordenarVideos(cursoId, ordenes, usuarioId);
+        res.status(200).json({ message: 'Orden de videos actualizado correctamente' });
+    } catch (error) {
+        next(error);
+    }
+};

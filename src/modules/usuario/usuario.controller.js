@@ -3,7 +3,8 @@ const { BadRequestError } = require('@utils/errors');
 
 exports.findAll = async (req, res, next) => {
     try {
-        const usuarios = await servicio.findAll();
+        const rolCodigo = req.query.rol;
+        const usuarios = await servicio.findAll(rolCodigo);
         res.status(200).json(usuarios);
     } catch (err) {
         next(err);

@@ -10,7 +10,7 @@ exports.verifyToken = (req, res, next) => {
         const payload = jwt.verify(token, process.env.JWT_SECRET);
         req.user = {
             id: payload.id,
-            rolCodigo: payload.rolCodigo,
+            rol: payload.rol,
             permisos: payload.permisos
         };
 

@@ -46,7 +46,13 @@ const findAll = async (cursoId, usuarioId) => {
 
     return await Video.findAll({
         where: { cursoId },
-        order: [['orden', 'ASC']]
+        order: [['orden', 'ASC']],
+        include: [
+            {
+                model: Curso,
+                as: 'curso',
+            }
+        ]
     });
 };
 
@@ -102,10 +108,45 @@ const remove = async (id, usuarioId) => {
     return { message: 'Vídeo eliminado exitosamente' };
 };
 
+const reordenarVideos = async (cursoId, ordenes, usuarioId) => {
+    const curso = await Curso.findByPk(cursoId);
+    if (!curso) throw new NotFoundError('Curso no encontrado');
+
+    const usuario = await Usuario.findByPk(usuarioId, { include: 'rol' });
+    if (!usuario) throw new BadRequestError('Usuario no encontrado');
+
+    const esAdmin = usuario.rol.codigo === ROLES.ADMIN;
+    const esPropietario = curso.profesorId === usuarioId;
+    if (!esAdmin && !esPropietario) {
+        throw new ForbiddenError('No tienes permiso para reordenar los vídeos de este curso');
+    }
+
+    // Validar que todos los videos existen y pertenecen al curso
+    const videoIds = ordenes.map(v => v.id);
+    const videos = await Video.findAll({ where: { id: videoIds, cursoId } });
+    if (videos.length !== ordenes.length) {
+        throw new BadRequestError('Uno o más videos no existen o no pertenecen al curso');
+    }
+
+    // Validar que no haya órdenes duplicados
+    const ordenSet = new Set(ordenes.map(v => v.orden));
+    if (ordenSet.size !== ordenes.length) {
+        throw new BadRequestError('No puede haber órdenes duplicados');
+    }
+
+    // Actualizar todos los videos
+    for (const { id, orden } of ordenes) {
+        const video = videos.find(v => v.id === id);
+        video.orden = orden;
+        await video.save();
+    }
+};
+
 module.exports = {
     create,
     findAll,
     findById,
     update,
-    remove
+    remove,
+    reordenarVideos
 };
