@@ -19,7 +19,23 @@ const create = async (cursoId, estudianteId) => {
     const yaInscrito = await Inscripcion.findOne({ where: { cursoId, estudianteId } });
     if (yaInscrito) throw new BadRequestError('Ya estás inscrito en este curso');
 
-    return await Inscripcion.create({ cursoId, estudianteId });
+    const inscripcion = await Inscripcion.create({ cursoId, estudianteId });
+
+    // Buscar la inscripción recién creada con sus relaciones
+    return await Inscripcion.findByPk(inscripcion.id, {
+        include: [
+            {
+                model: Usuario,
+                as: 'estudiante',
+                attributes: ['id', 'nombre', 'apellido', 'email']
+            },
+            {
+                model: Curso,
+                as: 'curso',
+                attributes: ['id', 'titulo', 'descripcion']
+            }
+        ]
+    });
 };
 
 const findByCurso = async cursoId => {
@@ -33,6 +49,11 @@ const findByCurso = async cursoId => {
                 model: Usuario,
                 as: 'estudiante',
                 attributes: ['id', 'nombre', 'apellido', 'email']
+            },
+            {
+                model: Curso,
+                as: 'curso',
+                attributes: ['id', 'titulo', 'descripcion']
             }
         ]
     });
@@ -45,8 +66,12 @@ const findByEstudiante = async estudianteId => {
             {
                 model: Curso,
                 as: 'curso',
-                attributes: ['id', 'titulo', 'descripcion']
-            }
+            },
+            {
+                model: Usuario,
+                as: 'estudiante',
+                attributes: ['id', 'nombre', 'apellido', 'email']
+            },
         ]
     });
 };

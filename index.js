@@ -8,7 +8,6 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 app.use('/uploads', express.static(path.join(__dirname, 'src/public/uploads')));
 
@@ -56,12 +55,12 @@ db.sequelize
         //force: true // Borra y recrea la base de datos cada vez que se inicia el servidor
     })
     .then(() => {
-        console.log('Base de datos sincronizada');
+        if (process.env.NODE_ENV !== 'test') {
+            console.log('Base de datos sincronizada');
+        }
     });
 
 require('@routes')(app);
 app.use(require('@middlewares/error.middleware'));
 
-app.listen(PORT, () => {
-    console.log(`Servidor corriendo en http://localhost:${PORT}`);
-});
+module.exports = app;

@@ -4,6 +4,7 @@ module.exports = app => {
 
 
     router.post('/login', controlador.login);
+    router.post('/logout', controlador.logout);
     router.post('/register', controlador.register);
 
     app.use('/api/auth', router);

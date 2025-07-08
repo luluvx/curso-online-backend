@@ -32,11 +32,14 @@ const login = async (email, password) => {
     }
     const permisos = (usuario.rol.permisos || []).map(p => p.codigo);
 
+
     const payload = {
         id: usuario.id,
         username: usuario.username,
-        rolId: usuario.rolId,
-        rolCodigo: usuario.rol.codigo,
+        rol: {
+            codigo: usuario.rol.codigo,
+            nombre: usuario.rol.nombre
+        },
         permisos
     };
 
@@ -50,7 +53,10 @@ const login = async (email, password) => {
             nombre: usuario.nombre,
             apellido: usuario.apellido,
             email: usuario.email,
-            rol: usuario.rol.nombre,
+            rol: {
+                codigo: usuario.rol.codigo,
+                nombre: usuario.rol.nombre
+            },
             permisos
         }
     };

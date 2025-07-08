@@ -6,11 +6,11 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.FLOAT,
                 allowNull: false
             },
-            descripcion: {
-                type: DataTypes.STRING,
-                allowNull: true
-            },
             inscripcionId: {
+                type: DataTypes.INTEGER,
+                allowNull: false
+            },
+            tipoNotaId: {
                 type: DataTypes.INTEGER,
                 allowNull: false
             }
@@ -25,6 +25,10 @@ module.exports = (sequelize, DataTypes) => {
         Nota.belongsTo(models.inscripciones, {
             foreignKey: 'inscripcionId',
             as: 'inscripcion'
+        });
+        Nota.belongsTo(models.tipoNota, {
+            foreignKey: 'tipoNotaId',
+            as: 'tipoNota'
         });
     };
 

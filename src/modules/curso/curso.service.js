@@ -40,8 +40,29 @@ const createCurso = async (titulo, descripcion, categoriaId, currentUserId, assi
     return newCurso;
 };
 
-const getCursos = async () => {
+const getCursos = async (filtros = {}) => {
+    const where = {};
+
+    // Filtrar por profesor si se especifica
+    if (filtros.profesorId) {
+        // Verificar que el profesor existe y es válido
+        const profesor = await Usuario.findByPk(filtros.profesorId, { include: 'rol' });
+        if (!profesor) {
+            throw new NotFoundError('Profesor no encontrado');
+        }
+        if (profesor.rol.codigo !== ROLES.PROFESOR) {
+            throw new BadRequestError('El usuario especificado no es un profesor');
+        }
+        where.profesorId = filtros.profesorId;
+    }
+
+    // Filtrar por categoría si se especifica
+    if (filtros.categoriaId) {
+        where.categoriaId = filtros.categoriaId;
+    }
+
     return await Curso.findAll({
+        where,
         include: [
             { model: db.categorias, as: 'categoria', attributes: ['id', 'nombre'] },
             {
@@ -76,7 +97,16 @@ const updateCurso = async (id, datos, usuarioId) => {
     if (!curso) {
         throw new NotFoundError('Curso no encontrado');
     }
-    if (curso.profesorId !== usuarioId) {
+
+    const usuario = await Usuario.findByPk(usuarioId, { include: 'rol' });
+    if (!usuario) {
+        throw new BadRequestError('Usuario no encontrado');
+    }
+
+    const esAdmin = usuario.rol.codigo === ROLES.ADMIN;
+    const esPropietario = curso.profesorId === usuarioId;
+
+    if (!esAdmin && !esPropietario) {
         throw new BadRequestError('No tienes permiso para editar este curso');
     }
 
@@ -97,9 +127,19 @@ const deleteCurso = async (id, usuarioId) => {
     if (!curso) {
         throw new NotFoundError('Curso no encontrado');
     }
-    if (curso.profesorId !== usuarioId) {
+
+    const usuario = await Usuario.findByPk(usuarioId, { include: 'rol' });
+    if (!usuario) {
+        throw new BadRequestError('Usuario no encontrado');
+    }
+
+    const esAdmin = usuario.rol.codigo === ROLES.ADMIN;
+    const esPropietario = curso.profesorId === usuarioId;
+
+    if (!esAdmin && !esPropietario) {
         throw new BadRequestError('No tienes permiso para eliminar este curso');
     }
+
     await curso.destroy();
     return { message: 'Curso eliminado exitosamente' };
 };

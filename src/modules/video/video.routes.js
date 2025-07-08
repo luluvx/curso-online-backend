@@ -52,5 +52,12 @@ module.exports = app => {
         controlador.remove
     );
 
+    router.patch(
+        '/cursos/:cursoId/videos/orden',
+        auth.verifyToken,
+        permission.hasPermission(PERMISSIONS.VIDEO_UPDATE),
+        controlador.reordenarVideos
+    );
+
     app.use('/api', router);
 };

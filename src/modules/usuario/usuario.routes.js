@@ -9,45 +9,40 @@ module.exports = app => {
 
 
     router.get(
-        '/', 
-        auth.verifyToken, 
-        permission.hasPermission(PERMISSIONS.USER_LIST), 
+        '/',
+        auth.verifyToken,
+        permission.hasPermission(PERMISSIONS.USER_LIST),
         controlador.findAll
     );
 
-
     router.get(
-        '/:id', 
-        auth.verifyToken, 
-        permission.hasPermission(PERMISSIONS.USER_VIEW), 
-        controlador.findById
-    );
-
-
-    router.patch(
-        '/:id', 
-        auth.verifyToken, 
-        permission.hasPermission(PERMISSIONS.USER_UPDATE), 
-        usuarioValidation.updateUser, 
-        validate, 
-        controlador.update
-    );
-
-
-    router.delete(
-        '/:id', 
-        auth.verifyToken, 
-        permission.hasPermission(PERMISSIONS.USER_DELETE), 
-        controlador.remove
-    );
-
-
-    router.get(
-        '/me', 
-        auth.verifyToken, 
+        '/me',
+        auth.verifyToken,
         controlador.getMe
     );
 
+    router.get(
+        '/:id',
+        auth.verifyToken,
+        permission.hasPermission(PERMISSIONS.USER_VIEW),
+        controlador.findById
+    );
+
+    router.patch(
+        '/:id',
+        auth.verifyToken,
+        permission.hasPermission(PERMISSIONS.USER_UPDATE),
+        usuarioValidation.updateUser,
+        validate,
+        controlador.update
+    );
+
+    router.delete(
+        '/:id',
+        auth.verifyToken,
+        permission.hasPermission(PERMISSIONS.USER_DELETE),
+        controlador.remove
+    );
 
     app.use('/api/usuarios', router);
 }; 

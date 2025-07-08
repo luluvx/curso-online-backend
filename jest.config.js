@@ -1,0 +1,27 @@
+module.exports = {
+    testEnvironment: 'node',
+    roots: ['<rootDir>/tests'],
+    testMatch: ['**/*.test.js'],
+    clearMocks: true,
+    coverageDirectory: 'coverage',
+    collectCoverageFrom: [
+        'src/**/*.js',
+        '!src/public/**',
+        '!src/database/migrations/**',
+        '!src/database/seeders/**',
+    ],
+    moduleNameMapper: {
+        '^@controllers(.*)$': '<rootDir>/src/controllers$1',
+        '^@middlewares(.*)$': '<rootDir>/src/middlewares$1',
+        '^@models(.*)$': '<rootDir>/src/models$1',
+        '^@routes(.*)$': '<rootDir>/src/routes$1',
+        '^@services(.*)$': '<rootDir>/src/services$1',
+        '^@utils(.*)$': '<rootDir>/src/utils$1',
+        '^@db(.*)$': '<rootDir>/src/database$1',
+        '^@config(.*)$': '<rootDir>/src/config$1',
+        '^@modules(.*)$': '<rootDir>/src/modules$1',
+        '^@constants(.*)$': '<rootDir>/src/constants$1',
+        '^@validations(.*)$': '<rootDir>/src/validations$1',
+    },
+    globalTeardown: '<rootDir>/tests/teardown.js',
+}; 

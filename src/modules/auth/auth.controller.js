@@ -23,6 +23,22 @@ exports.login = async (req, res) => {
     }
 };
 
+exports.logout = async (req, res) => {
+    try {
+        res.clearCookie('authToken', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'Strict'
+        });
+
+        res.status(200).json({
+            message: 'Logout exitoso'
+        });
+    } catch (error) {
+        res.status(500).json({ error: 'Error durante el logout' });
+    }
+};
+
 exports.register = async (req, res) => {
     const { username, nombre, apellido, email, password, rolId } = req.body;
 
