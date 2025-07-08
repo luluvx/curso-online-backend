@@ -110,7 +110,7 @@ const updateCurso = async (id, datos, usuarioId) => {
         throw new BadRequestError('No tienes permiso para editar este curso');
     }
 
-    const { titulo, descripcion, categoriaId } = datos;
+    const { titulo, descripcion, categoriaId, profesorId } = datos;
     if (categoriaId) {
         const cat = await db.categorias.findByPk(categoriaId);
         if (!cat) throw new BadRequestError('Categoría no válida');
@@ -118,6 +118,14 @@ const updateCurso = async (id, datos, usuarioId) => {
     }
     if (titulo) curso.titulo = titulo;
     if (descripcion) curso.descripcion = descripcion;
+    // Permitir que el admin cambie el profesor
+    if (esAdmin && profesorId) {
+        const nuevoProfesor = await Usuario.findByPk(profesorId, { include: 'rol' });
+        if (!nuevoProfesor || nuevoProfesor.rol.codigo !== ROLES.PROFESOR) {
+            throw new BadRequestError('El usuario asignado no es profesor válido');
+        }
+        curso.profesorId = profesorId;
+    }
     await curso.save();
     return curso;
 };

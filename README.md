@@ -20,12 +20,18 @@ API RESTful para la gestión de cursos, usuarios, inscripciones, notas y certifi
    npm install
    ```
 3. Configura las variables de entorno (usa `.env.example` como guía).
-4. Ejecuta migraciones y seeders:
+4. Ejecuta migraciones:
    ```bash
    npx sequelize-cli db:migrate
-   npx sequelize-cli db:seed:all
    ```
-5. Inicia el servidor:
+5. Ejecuta seeders en orden:
+   ```bash
+   npx sequelize-cli db:seed --seed 20250620190504-seed-roles.js
+   npx sequelize-cli db:seed --seed 20250621004423-seed-permisos.js
+   npx sequelize-cli db:seed --seed 20250621010312-seed-rol-permisos.js
+   npx sequelize-cli db:seed --seed 20250621014035-seed-admin-user.js
+   ```
+6. Inicia el servidor:
    ```bash
    npm start
    ```
@@ -52,9 +58,7 @@ src/
 - `npm start` — Inicia el servidor
 - `npm run dev` — Inicia en modo desarrollo (si tienes nodemon)
 - `npx sequelize-cli db:migrate` — Ejecuta migraciones
-- `npx sequelize-cli db:seed:all` — Ejecuta seeders
-
-
+- `npx sequelize-cli db:seed:all` — Ejecuta todos los seeders (puede causar errores)
 
 ---
 
