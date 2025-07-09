@@ -29,7 +29,7 @@ API RESTful para la gestión de cursos, usuarios, inscripciones, notas y certifi
    npx sequelize-cli db:seed --seed 20250620190504-seed-roles.js
    npx sequelize-cli db:seed --seed 20250621004423-seed-permisos.js
    npx sequelize-cli db:seed --seed 20250621010312-seed-rol-permisos.js
-   npx sequelize-cli db:seed --seed 20250621014035-seed-admin-user.js
+   npx sequelize-cli db:seed --seed 20250621014035-seed-admin-user2.js
    ```
 6. Inicia el servidor:
    ```bash
