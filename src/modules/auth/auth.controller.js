@@ -6,7 +6,7 @@ exports.login = async (req, res) => {
 
     try {
         const { token, usuario } = await authService.login(email, password);
-
+        console.log('Usuario autenticado:', usuario);
         res.cookie('authToken', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
