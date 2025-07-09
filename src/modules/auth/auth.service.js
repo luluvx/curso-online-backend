@@ -1,0 +1,77 @@
+const db = require('@db/index');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const { BadRequestError, NotFoundError } = require('@utils/errors');
+
+const login = async (email, password) => {
+    const usuario = await db.usuarios.findOne({
+        where: { email },
+        include: [
+            {
+                model: db.roles,
+                as: 'rol',
+                include: [
+                    {
+                        model: db.permisos,
+                        as: 'permisos',
+                        attributes: ['codigo'],
+                        through: { attributes: [] }
+                    }
+                ]
+            }
+        ]
+    });
+
+    if (!usuario) {
+        throw new NotFoundError('Usuario no encontrado');
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, usuario.password);
+    if (!isPasswordValid) {
+        throw new BadRequestError('Contraseña incorrecta');
+    }
+    const permisos = (usuario.rol.permisos || []).map(p => p.codigo);
+
+
+    const payload = {
+        id: usuario.id,
+        username: usuario.username,
+        rol: {
+            codigo: usuario.rol.codigo,
+            nombre: usuario.rol.nombre
+        },
+        permisos
+    };
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    return {
+        token
+    };
+};
+
+const register = async (username, nombre, apellido, email, password, rolId) => {
+    const existingUser = await db.usuarios.findOne({ where: { email } });
+    if (existingUser) {
+        throw new Error('El email ya está registrado');
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = await db.usuarios.create({
+        username,
+        nombre,
+        apellido,
+        email,
+        password: hashedPassword,
+        rolId
+    });
+
+    await newUser.save();
+    return { message: 'Usuario registrado exitosamente' };
+};
+
+module.exports = {
+    login,
+    register
+};

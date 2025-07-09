@@ -1,0 +1,40 @@
+module.exports = app => {
+    const router = require('express').Router();
+    const controlador = require('@modules/categoria/categoria.controller');
+    const auth = require('@middlewares/auth.middleware');
+    const PERMISSIONS = require('@constants/permissions');
+    const permission = require('@middlewares/permission.middleware');
+    const categoriaValidation = require('@validations/categoria.validation');
+    const validate = require('@middlewares/validationResult.middleware');
+
+    router.post(
+        '/',
+        auth.verifyToken,
+        permission.hasPermission(PERMISSIONS.CATEGORY_CREATE),
+        categoriaValidation.createCategoria,
+        validate,
+        controlador.create
+    );
+
+    router.get('/', controlador.findAll);
+
+    router.get('/:id', controlador.findById);
+
+    router.put(
+        '/:id',
+        auth.verifyToken,
+        permission.hasPermission(PERMISSIONS.CATEGORY_UPDATE),
+        categoriaValidation.updateCategoria,
+        validate,
+        controlador.update
+    );
+
+    router.delete(
+        '/:id',
+        auth.verifyToken,
+        permission.hasPermission(PERMISSIONS.CATEGORY_DELETE),
+        controlador.remove
+    );
+
+    app.use('/api/categorias', router);
+};

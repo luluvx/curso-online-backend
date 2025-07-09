@@ -1,0 +1,63 @@
+module.exports = app => {
+    const router = require('express').Router();
+    const controlador = require('@modules/video/video.controller');
+    const auth = require('@middlewares/auth.middleware');
+    const PERMISSIONS = require('@constants/permissions');
+    const permission = require('@middlewares/permission.middleware');
+    const videoValidation = require('@validations/video.validation');
+    const validate = require('@middlewares/validationResult.middleware');
+
+
+
+    router.post(
+        '/cursos/:cursoId/videos',
+        auth.verifyToken,
+        permission.hasPermission(PERMISSIONS.VIDEO_ADD),
+        videoValidation.createVideo,
+        validate,
+        controlador.create
+    );
+
+
+    router.get(
+        '/cursos/:cursoId/videos',
+        auth.verifyToken,
+        permission.hasPermission(PERMISSIONS.VIDEO_LIST),
+        controlador.findAll
+    );
+
+
+    router.get(
+        '/videos/:id',
+        auth.verifyToken,
+        permission.hasPermission(PERMISSIONS.VIDEO_VIEW),
+        controlador.findById
+    );
+
+
+    router.patch(
+        '/videos/:id',
+        auth.verifyToken,
+        permission.hasPermission(PERMISSIONS.VIDEO_UPDATE),
+        videoValidation.updateVideo,
+        validate,
+        controlador.update
+    );
+
+
+    router.delete(
+        '/videos/:id',
+        auth.verifyToken,
+        permission.hasPermission(PERMISSIONS.VIDEO_DELETE),
+        controlador.remove
+    );
+
+    router.patch(
+        '/cursos/:cursoId/videos/orden',
+        auth.verifyToken,
+        permission.hasPermission(PERMISSIONS.VIDEO_UPDATE),
+        controlador.reordenarVideos
+    );
+
+    app.use('/api', router);
+};
