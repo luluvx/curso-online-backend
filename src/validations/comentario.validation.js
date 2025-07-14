@@ -1,7 +1,7 @@
 const { body, param } = require('express-validator');
 
 exports.createComentario = [
-    body('cursoId').isInt().withMessage('El curso debe ser un número'),
+    param('cursoId').isInt().withMessage('El curso debe ser un número'),
     body('contenido').isLength({ min: 2 }).withMessage('El comentario es muy corto'),
 ];
 
