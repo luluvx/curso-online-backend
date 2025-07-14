@@ -35,7 +35,9 @@ module.exports = {
             PERMISSIONS.GRADE_ASSIGN,
             PERMISSIONS.GRADE_LIST,
             PERMISSIONS.ENROLLMENT_LIST,
-            PERMISSIONS.ENROLLMENT_VIEW
+            PERMISSIONS.ENROLLMENT_VIEW,
+            PERMISSIONS.COMMENT_LIST,
+            PERMISSIONS.GRADE_UPDATE
         ];
         for (const codigo of permisosProfesor) {
             data.push({ rolId: rolesMap[ROLES.PROFESOR], permisoId: permisosMap[codigo] });

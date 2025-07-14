@@ -54,8 +54,6 @@ const crearPDFCertificado = async ({ usuario, curso, promedio, cursoId, usuarioI
     doc.fontSize(16)
         .fillColor('black')
         .font('Times-Roman')
-        .text(`Profesor: ${curso.profesor?.nombre || ''} ${curso.profesor?.apellido || ''}`, { align: 'center' })
-        .moveDown(0.2)
         .text(`Promedio final: ${promedio.toFixed(2)}`, { align: 'center' });
 
     doc.moveDown(2);
@@ -66,13 +64,6 @@ const crearPDFCertificado = async ({ usuario, curso, promedio, cursoId, usuarioI
         .text(`Fecha de emisión: ${new Date().toLocaleDateString()}`, { align: 'center' })
         .moveDown(0.2)
         .text(`ID de certificado: CUR-${cursoId}-USR-${usuarioId}`, { align: 'center' });
-
-    // Línea de firma (opcional)
-    doc.moveDown(3);
-    doc.fontSize(16)
-        .fillColor('black')
-        .text('_________________________', { align: 'center' })
-        .text('Firma del profesor', { align: 'center' });
 
     doc.end();
 
