@@ -47,4 +47,15 @@ exports.getMe = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
+};
+
+exports.changePassword = async (req, res, next) => {
+    try {
+        const usuarioId = req.params.id;
+        const { newPassword } = req.body;
+        await servicio.changePassword(usuarioId, null, newPassword, req.user);
+        res.status(200).json({ message: 'Contraseña actualizada correctamente' });
+    } catch (err) {
+        next(err);
+    }
 }; 
