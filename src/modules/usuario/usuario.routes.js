@@ -37,6 +37,14 @@ module.exports = app => {
         controlador.update
     );
 
+    router.patch(
+        '/:id/password',
+        auth.verifyToken,
+        usuarioValidation.changePassword,
+        validate,
+        controlador.changePassword
+    );
+
     router.delete(
         '/:id',
         auth.verifyToken,

@@ -11,7 +11,7 @@ module.exports = {
 
         if (!rolId) throw new Error('No se encontró el rol ADMIN');
 
-        const hashedPassword = await bcrypt.hash('123', 10);
+        const hashedPassword = await bcrypt.hash('Admin123*', 10);
 
         await queryInterface.bulkInsert(
             'usuarios',
